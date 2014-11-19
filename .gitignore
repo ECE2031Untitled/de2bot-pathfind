@@ -1,0 +1,11 @@
+# Compiled SCOMP assembly files
+*.mif
+
+# Quartus output files
+*.qmsg
+*.vo
+*.vho
+*.tdo
+*.sdo
+*.tao
+*.pin
