@@ -52,7 +52,7 @@ ARCHITECTURE a OF SCOMP IS
 		EX_RETI
 	);
 
-	TYPE STACK_TYPE IS ARRAY (0 TO 7) OF STD_LOGIC_VECTOR(9 DOWNTO 0);
+	TYPE STACK_TYPE IS ARRAY (0 TO 7) OF STD_LOGIC_VECTOR(10 DOWNTO 0);
 
 	SIGNAL STATE        : STATE_TYPE;
 	SIGNAL PC_STACK     : STACK_TYPE;
@@ -62,13 +62,13 @@ ARCHITECTURE a OF SCOMP IS
 	SIGNAL AC_SHIFTED   : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	SIGNAL IR           : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	SIGNAL MDR          : STD_LOGIC_VECTOR(15 DOWNTO 0);
-	SIGNAL PC           : STD_LOGIC_VECTOR( 9 DOWNTO 0);
-	SIGNAL PC_SAVED     : STD_LOGIC_VECTOR( 9 DOWNTO 0);
-	SIGNAL MEM_ADDR     : STD_LOGIC_VECTOR( 9 DOWNTO 0);
+	SIGNAL PC           : STD_LOGIC_VECTOR(10 DOWNTO 0);
+	SIGNAL PC_SAVED     : STD_LOGIC_VECTOR(10 DOWNTO 0);
+	SIGNAL MEM_ADDR     : STD_LOGIC_VECTOR(10 DOWNTO 0);
 	SIGNAL MW           : STD_LOGIC;
 	SIGNAL IO_WRITE_INT : STD_LOGIC;
 	SIGNAL GIE          : STD_LOGIC;
-	SIGNAL IIE      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+	SIGNAL IIE          : STD_LOGIC_VECTOR( 3 DOWNTO 0);
 	SIGNAL INT_REQ      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
 	SIGNAL INT_REQ_SYNC : STD_LOGIC_VECTOR( 3 DOWNTO 0); -- registered version of INT_REQ
 	SIGNAL INT_ACK      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
@@ -81,8 +81,8 @@ BEGIN
 	GENERIC MAP (
 		intended_device_family => "Cyclone",
 		width_a          => 16,
-		widthad_a        => 10,
-		numwords_a       => 1024,
+		widthad_a        => 11,
+		numwords_a       => 2048,
 		operation_mode   => "SINGLE_PORT",
 		outdata_reg_a    => "UNREGISTERED",
 		indata_aclr_a    => "NONE",
@@ -131,7 +131,7 @@ BEGIN
 
 	WITH STATE SELECT MEM_ADDR <=
 		PC WHEN FETCH,
-		IR(9 DOWNTO 0) WHEN OTHERS;
+		IR(10 DOWNTO 0) WHEN OTHERS;
 
 	WITH STATE SELECT IO_CYCLE <=
 		'1' WHEN EX_IN,
@@ -148,7 +148,7 @@ BEGIN
 			CASE STATE IS
 				WHEN RESET_PC =>
 					MW        <= '0';          -- Clear memory write flag
-					PC        <= "0000000000"; -- Reset PC to the beginning of memory, address 0x000
+					PC        <= "00000000000"; -- Reset PC to the beginning of memory, address 0x000
 					AC        <= x"0000";      -- Clear AC register
 					IO_WRITE_INT <= '0';
 					GIE       <= '1';          -- Enable interrupts
@@ -166,16 +166,16 @@ BEGIN
 					  (INT_REQ_SYNC /= "0000") THEN -- ...an interrupt is pending
 						IF INT_REQ_SYNC(0) = '1' THEN   -- Got interrupt on PCINT0
 							INT_ACK <= "0001";     -- Acknowledge the interrupt
-							PC <= "0000000001";    -- Redirect execution
+							PC <= "00000000001";    -- Redirect execution
 						ELSIF INT_REQ_SYNC(1) = '1' THEN
 							INT_ACK <= "0010";     -- repeat for other pins
-							PC <= "0000000010";
+							PC <= "00000000010";
 						ELSIF INT_REQ_SYNC(2) = '1' THEN
 							INT_ACK <= "0100";
-							PC <= "0000000011";
+							PC <= "00000000011";
 						ELSIF INT_REQ_SYNC(3) = '1' THEN
 							INT_ACK <= "1000";
-							PC <= "0000000100";
+							PC <= "00000000100";
 						END IF;
 						GIE <= '0';            -- Disable interrupts while in ISR
 						AC_SAVED <= AC;        -- Save AC
@@ -188,57 +188,57 @@ BEGIN
 					END IF;
 
 				WHEN DECODE =>
-					CASE IR(15 downto 10) IS
-						WHEN "000000" =>       -- No Operation (NOP)
+					CASE IR(15 downto 11) IS
+						WHEN "00000" =>       -- No Operation (NOP)
 							STATE <= FETCH;
-						WHEN "000001" =>       -- LOAD
+						WHEN "00001" =>       -- LOAD
 							STATE <= EX_LOAD;
-						WHEN "000010" =>       -- STORE
+						WHEN "00010" =>       -- STORE
 							STATE <= EX_STORE;
-						WHEN "000011" =>       -- ADD
+						WHEN "00011" =>       -- ADD
 							STATE <= EX_ADD;
-						WHEN "000100" =>       -- SUB
+						WHEN "00100" =>       -- SUB
 							STATE <= EX_SUB;
-						WHEN "000101" =>       -- JUMP
+						WHEN "00101" =>       -- JUMP
 							STATE <= EX_JUMP;
-						WHEN "000110" =>       -- JNEG
+						WHEN "00110" =>       -- JNEG
 							STATE <= EX_JNEG;
-						WHEN "000111" =>       -- JPOS
+						WHEN "00111" =>       -- JPOS
 							STATE <= EX_JPOS;
-						WHEN "001000" =>       -- JZERO
+						WHEN "01000" =>       -- JZERO
 							STATE <= EX_JZERO;
-						WHEN "001001" =>       -- AND
+						WHEN "01001" =>       -- AND
 							STATE <= EX_AND;
-						WHEN "001010" =>       -- OR
+						WHEN "01010" =>       -- OR
 							STATE <= EX_OR;
-						WHEN "001011" =>       -- XOR
+						WHEN "01011" =>       -- XOR
 							STATE <= EX_XOR;
-						WHEN "001100" =>       -- SHIFT
+						WHEN "01100" =>       -- SHIFT
 							STATE <= EX_SHIFT;
-						WHEN "001101" =>       -- ADDI
+						WHEN "01101" =>       -- ADDI
 							STATE <= EX_ADDI;
-						WHEN "001110" =>       -- ILOAD
+						WHEN "01110" =>       -- ILOAD
 							STATE <= EX_ILOAD;
-						WHEN "001111" =>       -- ISTORE
+						WHEN "01111" =>       -- ISTORE
 							STATE <= EX_ISTORE;
-						WHEN "010000" =>       -- CALL
+						WHEN "10000" =>       -- CALL
 							STATE <= EX_CALL;
-						WHEN "010001" =>       -- RETURN
+						WHEN "10001" =>       -- RETURN
 							STATE <= EX_RETURN;
-						WHEN "010010" =>       -- IN
+						WHEN "10010" =>       -- IN
 							STATE <= EX_IN;
-						WHEN "010011" =>       -- OUT
+						WHEN "10011" =>       -- OUT
 							STATE <= EX_OUT;
 							IO_WRITE_INT <= '1'; -- raise IO_WRITE
-						WHEN "010100" =>       -- CLI
+						WHEN "10100" =>       -- CLI
 							IIE <= IIE AND NOT(IR(3 DOWNTO 0));  -- disable indicated interrupts
 							STATE <= FETCH;
-						WHEN "010101" =>       -- SEI
+						WHEN "10101" =>       -- SEI
 							IIE <= IIE OR IR(3 DOWNTO 0);  -- enable indicated interrupts
 							STATE <= FETCH;
-						WHEN "010110" =>       -- RETI
+						WHEN "10110" =>       -- RETI
 							STATE <= EX_RETI;
-						WHEN "010111" =>       -- LOADI
+						WHEN "10111" =>       -- LOADI
 							STATE <= EX_LOADI;
 
 						WHEN OTHERS =>
@@ -266,25 +266,25 @@ BEGIN
 					STATE <= FETCH;
 
 				WHEN EX_JUMP =>
-					PC    <= IR(9 DOWNTO 0);
+					PC    <= IR(10 DOWNTO 0);
 					STATE <= FETCH;
 
 				WHEN EX_JNEG =>
 					IF (AC(15) = '1') THEN
-						PC    <= IR(9 DOWNTO 0);
+						PC    <= IR(10 DOWNTO 0);
 					END IF;
 
 				STATE <= FETCH;
 
 				WHEN EX_JPOS =>
 					IF ((AC(15) = '0') AND (AC /= x"0000")) THEN
-						PC    <= IR(9 DOWNTO 0);
+						PC    <= IR(10 DOWNTO 0);
 					END IF;
 					STATE <= FETCH;
 
 				WHEN EX_JZERO =>
 					IF (AC = x"0000") THEN
-						PC    <= IR(9 DOWNTO 0);
+						PC    <= IR(10 DOWNTO 0);
 					END IF;
 					STATE <= FETCH;
 
@@ -305,16 +305,16 @@ BEGIN
 					STATE <= FETCH;
 
 				WHEN EX_ADDI =>
-					AC    <= AC + (IR(9) & IR(9) & IR(9) & IR(9) &
-					 IR(9) & IR(9) & IR(9 DOWNTO 0));
+					AC    <= AC + (IR(10) & IR(10) & IR(10) &
+					 IR(10) & IR(10) & IR(10 DOWNTO 0));
 					STATE <= FETCH;
 
 				WHEN EX_ILOAD =>
-					IR(9 DOWNTO 0) <= MDR(9 DOWNTO 0);
+					IR(10 DOWNTO 0) <= MDR(10 DOWNTO 0);
 					STATE <= EX_LOAD;
 
 				WHEN EX_ISTORE =>
-					IR(9 DOWNTO 0) <= MDR(9 DOWNTO 0);
+					IR(10 DOWNTO 0) <= MDR(10 DOWNTO 0);
 					STATE          <= EX_STORE;
 
 				WHEN EX_CALL =>
@@ -322,7 +322,7 @@ BEGIN
 						PC_STACK(i + 1) <= PC_STACK(i);
 					END LOOP;
 					PC_STACK(0) <= PC;
-					PC          <= IR(9 DOWNTO 0);
+					PC          <= IR(10 DOWNTO 0);
 					STATE       <= FETCH;
 
 				WHEN EX_RETURN =>
@@ -348,8 +348,8 @@ BEGIN
 					STATE <= FETCH;
 
 				WHEN EX_LOADI =>
-					AC    <= (IR(9) & IR(9) & IR(9) & IR(9) &
-					 IR(9) & IR(9) & IR(9 DOWNTO 0));
+					AC    <= (IR(10) & IR(10) & IR(10) &
+					 IR(10) & IR(10) & IR(10 DOWNTO 0));
 					STATE <= FETCH;
 
 				WHEN EX_RETI =>
