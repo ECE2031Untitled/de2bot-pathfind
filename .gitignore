@@ -9,3 +9,16 @@
 *.sdo
 *.tao
 *.pin
+
+# Quartus compilation files
+db/*
+incremental_db/*
+
+# Quartus report files
+*.rpt
+*.summary
+*.done
+
+# Quartus executables
+*.pof
+*.sof
