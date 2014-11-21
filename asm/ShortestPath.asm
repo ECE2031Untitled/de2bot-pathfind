@@ -2,6 +2,7 @@ JUMP    Main
 
 #include "Devices.asm"
 #include "Constant.asm"
+#include "Util.asm"
 
 Main: ; "Real" program starts here.
 
@@ -120,7 +121,7 @@ CALD11:     ; DISTANCE 1 METHOD1
     SUB     X1
     JPOS    D1NEXT1
     JZERO   D1NEXT1
-    CALL    NEGATE
+    CALL    Negate
 
 D1NEXT1:
     STORE   DIFFX
@@ -128,7 +129,7 @@ D1NEXT1:
     SUB     Y1
     JPOS    D1STORE
     JZERO   D1STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D1STORE
 
 CALD12:     ; DISTANCE 1 METHOD2
@@ -140,7 +141,7 @@ CALD12:     ; DISTANCE 1 METHOD2
     SUB     Y1
     JPOS    D1STORE
     JZERO   D1STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D1STORE
 
 D1STORE:
@@ -173,7 +174,7 @@ CALD21:     ; DISTANCE 1 METHOD1
     SUB     X2
     JPOS    D2NEXT1
     JZERO   D2NEXT1
-    CALL    NEGATE
+    CALL    Negate
 
 D2NEXT1:
     STORE   DIFFX
@@ -181,7 +182,7 @@ D2NEXT1:
     SUB     Y2
     JPOS    D2STORE
     JZERO   D2STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D2STORE
 
 CALD22:     ; DISTANCE 1 METHOD2
@@ -193,7 +194,7 @@ CALD22:     ; DISTANCE 1 METHOD2
     SUB     Y2
     JPOS    D2STORE
     JZERO   D2STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D2STORE
 
 D2STORE:
@@ -226,7 +227,7 @@ CALD31:     ; DISTANCE 1 METHOD1
     SUB     X3
     JPOS    D3NEXT1
     JZERO   D3NEXT1
-    CALL    NEGATE
+    CALL    Negate
 
 D3NEXT1:
     STORE   DIFFX
@@ -234,7 +235,7 @@ D3NEXT1:
     SUB     Y3
     JPOS    D3STORE
     JZERO   D3STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D3STORE
 
 CALD32:     ; DISTANCE 1 METHOD2
@@ -246,7 +247,7 @@ CALD32:     ; DISTANCE 1 METHOD2
     SUB     Y3
     JPOS    D3STORE
     JZERO   D3STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D3STORE
 
 D3STORE:
@@ -279,7 +280,7 @@ CALD41:     ; DISTANCE 1 METHOD1
     SUB     X2
     JPOS    D4NEXT1
     JZERO   D4NEXT1
-    CALL    NEGATE
+    CALL    Negate
 
 D4NEXT1:
     STORE   DIFFX
@@ -287,7 +288,7 @@ D4NEXT1:
     SUB     Y2
     JPOS    D4STORE
     JZERO   D4STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D4STORE
 
 CALD42:     ; DISTANCE 1 METHOD2
@@ -299,7 +300,7 @@ CALD42:     ; DISTANCE 1 METHOD2
     SUB     Y2
     JPOS    D4STORE
     JZERO   D4STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D4STORE
 
 D4STORE:
@@ -332,7 +333,7 @@ CALD51:     ; DISTANCE 1 METHOD1
     SUB     X3
     JPOS    D5NEXT1
     JZERO   D5NEXT1
-    CALL    NEGATE
+    CALL    Negate
 
 D5NEXT1:
     STORE   DIFFX
@@ -340,7 +341,7 @@ D5NEXT1:
     SUB     Y3
     JPOS    D5STORE
     JZERO   D5STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D5STORE
 
 CALD52:     ; DISTANCE 1 METHOD2
@@ -352,7 +353,7 @@ CALD52:     ; DISTANCE 1 METHOD2
     SUB     Y3
     JPOS    D5STORE
     JZERO   D5STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D5STORE
 
 D5STORE:
@@ -385,7 +386,7 @@ CALD61:     ; DISTANCE 1 METHOD1
     SUB     X3
     JPOS    D6NEXT1
     JZERO   D6NEXT1
-    CALL    NEGATE
+    CALL    Negate
 
 D6NEXT1:
     STORE   DIFFX
@@ -393,7 +394,7 @@ D6NEXT1:
     SUB     Y3
     JPOS    D6STORE
     JZERO   D6STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D6STORE
 
 CALD62:     ; DISTANCE 1 METHOD2
@@ -405,7 +406,7 @@ CALD62:     ; DISTANCE 1 METHOD2
     SUB     Y3
     JPOS    D6STORE
     JZERO   D6STORE
-    CALL    NEGATE
+    CALL    Negate
     JUMP    D6STORE
 
 D6STORE:
@@ -717,13 +718,6 @@ RETRIEVE:   ; BEGIN FROM MID GOTO TO
     STORE   TOX
     LOAD    TEMPY
     STORE   TOY
-    RETURN
-
-; Subroutine to negate AC value
-NEGATE:     ; NEGATE AC
-    STORE   ACCUM
-    LOADI   0
-    SUB     ACCUM
     RETURN
 
 ;; GET THE VALUE OF DP BASED ON INDEX IN ACCUM.
