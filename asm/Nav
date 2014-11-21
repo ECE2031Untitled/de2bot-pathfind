@@ -1,0 +1,212 @@
+NAV:
+	
+	OUT RESETPOS
+	;Travel X
+
+	;WHICH WAY TO ORIENT TO TRAVEL X?
+
+	LOAD STEPX
+	JNEG PTOTWO
+	JPOS PTOZERO
+
+
+ContNavX:
+
+	CALL SETORIENTTOP
+
+
+	LOAD STEPX;
+	STORE Q;
+	CALL TRAVELDISTANCEQ ;go in x direction
+
+
+	
+	;Travel y
+
+	;WHICH WAY TO ORIENT TO TRAVEL Y?
+
+	LOAD STEPY
+	JNEG PTOTHREE
+	JPOS PTOONE
+
+
+
+ContNavY:
+
+	LOAD YTOGO
+	STORE Q
+	CALL TRAVELDISTANCEQ
+
+
+RETURN	
+
+
+PTOTWO: 
+	LOAD TWO
+	STORE P
+	LOAD ZERO
+	SUB STEPX				;ALSO GET THE ABSOLUTE VALUE OF XTOGO FOR Q
+	STORE STEPX
+	JUMP ContNavX	
+
+PTOZERO:
+	LOAD ZERO
+	STORE P
+	JUMP ContNavX
+
+PTOTHREE:
+	LOAD THREE
+	STORE P
+	LOAD ZERO
+	SUB STEPY				;ALSO GET THE ABSOLUTE VALUE OF YTOGO
+	STORE STEPY
+	JUMP ContNavY
+
+
+PTOONE:
+	LOAD ONE
+	STORE P
+	JUMP ContNavY
+
+
+
+
+
+
+; the following subroutines will rotate the robot so that it is oriented in the right way according to specifications from NAV commented out 
+
+SETORIENTTOP:			
+	LOAD ORIENT
+	SUB P
+	JZERO DONE
+	CALL ROTATE90CW				;should prolly optimize to rotate the faster way.
+	JUMP SETORIENTTOP
+DONE:	RETURN
+
+
+
+
+
+
+
+
+;SETORIENTTOONE:
+			
+	LOAD ORIENT
+	SUB ONE
+	JZERO DONE
+	CALL ROTATE90CW				;should prolly optimize to rotate the faster way.
+	JUMP SETORIENTTOZERO
+
+
+;SETORIENTTOTWO:
+
+	LOAD ORIENT
+	SUB TWO
+	JZERO DONE
+	CALL ROTATE90CW				;should prolly optimize to rotate the faster way.
+	JUMP SETORIENTTOZERO
+
+;SETORIENTTOTHREE:
+
+	LOAD ORIENT
+	SUB  THREE
+	JZERO DONE
+	CALL ROTATE90CW				;should prolly optimize to rotate the faster way.
+	JUMP SETORIENTTOZERO
+
+;DONE:	RETURN
+
+
+ROTATE90CCW:
+
+    LOAD  FSlow 
+    OUT   RVELCMD
+    LOAD  RSlow
+    OUT   LVELCMD
+   
+    IN THETA
+    SUB  Deg90
+   
+    JNEG Rotate
+
+    ;NOW STOP THE MOTORS
+    
+    LOAD ZERO
+    OUT RVELCMD
+    OUT LVELCMD	
+
+
+
+    RETURN
+
+ROTATE90CW:
+   
+    LOAD  FSlow 
+    OUT   LVELCMD
+    LOAD  RSlow
+    OUT   RVELCMD
+   
+    IN THETA
+    SUB  Deg270
+   
+    JPOS Rotate
+
+    ;NOW STOP THE MOTORS
+    
+    LOAD ZERO
+    OUT RVELCMD
+    OUT LVELCMD	
+
+    ;UPDATE CHANGED ORIENT VALUE
+
+    LOAD ORIENT
+    SUB	 1
+    JNEG SETORIENTTOTHREE
+    STORE ORIENT
+    RETURN
+
+SETORIENTTOTHREE:
+	LOAD THREE
+	STORE ORIENT
+	RETURN
+	
+
+
+
+
+
+
+
+
+
+
+;Code to travel a given distance. Only input required is Q which should be the robot count units of the distance you want to travel.
+
+TRAVELDISTANCEQ:
+
+    	OUT	   RESETPOS
+TDQ:    LOAD   FMid
+   	OUT    LVELCMD     ; Start motors
+   	OUT    RVELCMD
+   
+   	 IN XPOS
+   	 SUB Q
+   
+   
+   	 JNEG TDQ  ; keep going if hasnt gone to 4ft
+   
+   
+  ; Stop the motors after it has gone the distace
+	 LOAD   Zero
+	 OUT    LVELCMD     ; Stop motors
+	 OUT    RVELCMD
+
+	RETURN
+
+
+
+
+;local variables
+Q: DW 0
+ORIENT: DW 0
