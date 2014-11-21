@@ -20,7 +20,12 @@ Shutdown:
 ;; Effectively stop the CPU.
 ;;------------------------------------------------------------------------------
 Halt:
-    JUMP    Halt
+    LOADI   LCDInitStringz
+    CALL    LCDWriteStringz
+    LOADI   HaltStringz
+    CALL    LCDWriteStringz
+HaltLoop:
+    JUMP    HaltLoop
 
 ;;=== Motor Control ============================================================
 ;;==============================================================================

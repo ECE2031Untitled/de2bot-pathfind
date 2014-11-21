@@ -124,6 +124,29 @@ AlignmentStringz:
     DW      103
     DW      0
 
+;;--- int HaltStringz[] --------------------------------------------------------
+;; A string to display when we have halted.
+;; "SCOMP has halted"
+;;------------------------------------------------------------------------------
+HaltStringz:
+    DW      83
+    DW      67
+    DW      79
+    DW      77
+    DW      80
+    DW      32
+    DW      104
+    DW      97
+    DW      115
+    DW      32
+    DW      104
+    DW      97
+    DW      108
+    DW      116
+    DW      101
+    DW      100
+    DW      0
+
 ;;--- int LCDCmd ---------------------------------------------------------------
 ;; A flag which when outputted to the LCD indicates it is a command. (The
 ;; default is a character).
