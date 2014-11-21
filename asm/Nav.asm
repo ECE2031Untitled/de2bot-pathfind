@@ -113,7 +113,7 @@ SETORIENTTOTHREE:
 ;Code to travel a given distance. Only input required is Q which should be the robot count units of the distance you want to travel.
 
 ;;--- void TravelDistanceQ() ---------------------------------------------------
-;; Move forward Q feet.
+;; Move forward Q Count Units.
 ;;------------------------------------------------------------------------------
 TRAVELDISTANCEQ:
     OUT     RESETPOS
