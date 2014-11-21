@@ -1,11 +1,11 @@
-JUMP    Main
-
 #include "Devices.asm"
 #include "Constant.asm"
 #include "Util.asm"
 
-Main: ; "Real" program starts here.
-
+;;--- void ShortestPath() ------------------------------------------------------
+;; ???
+;;------------------------------------------------------------------------------
+ShortestPath:
         ; first for X0
         LOAD    X0      ; AC = X0
         SUB     TWO     ; AC = X0 - 2

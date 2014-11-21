@@ -12,6 +12,8 @@ Shutdown:
     OUT     RVELCMD
     OUT     LVELCMD
     OUT     SONAREN
+    LOADI   LCDInitStringz
+    CALL    LCDWriteStringz
     RETURN
 
 ;;--- void Halt() --------------------------------------------------------------
