@@ -6,7 +6,6 @@
 ;;------------------------------------------------------------------------------
 NAV:
     OUT    RESETPOS
-
     ;Travel X
     ;WHICH WAY TO ORIENT TO TRAVEL X?
 
@@ -14,9 +13,15 @@ NAV:
     JNEG   PTOTWO
     JPOS   PTOZERO
 
+
+
 ContNavX:
     CALL   SETORIENTTOP
-
+    
+    STORE TILESTOCOUNTS
+    CALL TTC
+    STORE STEPX
+    
     LOAD   STEPX;
     STORE  Q;
     CALL   TRAVELDISTANCEQ ;go in x direction
@@ -27,8 +32,16 @@ ContNavX:
     LOAD   STEPY
     JNEG   PTOTHREE
     JPOS   PTOONE
+    
+
 
 ContNavY:
+    CALL SETORIENTTOP
+    
+    STORE TILESTOCOUNTS
+    CALL TTC
+    STORE STEPY
+    
     LOAD   STEPY
     STORE  Q
     CALL   TRAVELDISTANCEQ
@@ -195,8 +208,8 @@ P: DW 0
 TILESTOCOUNTS: DW 0
 
 ;CONSTANTS: TILES CONVERTED TO UNITS WE NEEDTOGO
-ONET:586
-TWOT:1172
-THREET:1758
-FOURT:2344
-FIVET:2390
+ONET: DW 586
+TWOT: DW 1172
+THREET:DW 1758
+FOURT: DW 2344
+FIVET: DW 2390
