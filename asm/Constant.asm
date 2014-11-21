@@ -13,6 +13,7 @@ Seven:    DW 7
 Eight:    DW 8
 Nine:     DW 9
 Ten:      DW 10
+TwentyEight: DW 28
 
 Deg90:    DW 90        ; 90 degrees in odometry units
 Deg180:   DW 180       ; 180
