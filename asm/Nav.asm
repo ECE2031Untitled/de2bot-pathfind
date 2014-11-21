@@ -148,3 +148,16 @@ ORIENT: DW 0
 ;; Desired direction. One of (0,1,2,3).
 ;;------------------------------------------------------------------------------
 P: DW 0
+
+;;---int TilesToCounts----------------------------------------------------------
+;;  Is set to tiles we desire to travel. Is converted to counts(1.04mm/count) and then assigned to StepX or StepY
+;;-------------------------------------------------------------------------------
+
+TILESTOCOUNTS: DW 0
+
+;CONSTANTS: TILES CONVERTED TO UNITS WE NEEDTOGO
+ONET:586
+TWOT:1172
+THREET:1758
+FOURT:2344
+FIVET:2390
