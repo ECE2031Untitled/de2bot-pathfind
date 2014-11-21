@@ -1,3 +1,8 @@
+#ifndef LCD_ASM
+#define LCD_ASM
+
+#include "Devices.asm"
+
 ;;--- void LCDWriteChar(int c) -------------------------------------------------
 ;; Write a single character to the LCD.
 ;;------------------------------------------------------------------------------
@@ -150,3 +155,5 @@ LCDDisplayOn:
 ;;------------------------------------------------------------------------------
 LCDDisplayOff:
     DW      &H8008
+
+#endif /* LCD_ASM */

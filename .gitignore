@@ -1,6 +1,12 @@
 # Compiled SCOMP assembly files
 *.mif
 
+# SCASM error files
+*.err
+
+# Merged asm file
+output.asm
+
 # Quartus output files
 *.qmsg
 *.vo
@@ -22,3 +28,6 @@ incremental_db/*
 # Quartus executables
 *.pof
 *.sof
+
+#Quartus backup files
+*.bak

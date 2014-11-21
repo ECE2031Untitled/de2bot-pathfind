@@ -18,7 +18,7 @@ Init:
 	OUT    LVELCMD     ; Stop motors
 	OUT    RVELCMD
 	OUT    SONAREN     ; Disable sonar (optional)
-	
+
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
 	OUT    LCD         ; Display batt voltage on LCD
@@ -33,7 +33,7 @@ WaitForSafety:
 	SHIFT  8           ; Shift over to LED17
 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
 	JUMP   WaitForSafety
-	
+
 WaitForUser:
 	; Wait for user to press PB3
 	IN     TIMER       ; We'll blink the LEDs above PB3
@@ -53,7 +53,7 @@ WaitForUser:
 ;* Main code
 ;***************************************************************
 Main: ; "Real" program starts here.
-	OUT    RESETPOS    ; reset odometry in case wheels moved after programming	
+	OUT    RESETPOS    ; reset odometry in case wheels moved after programming
 
 ; The following code ("Center" through "DeadZone") is purely for example.
 ; It attempts to gently keep the robot facing 0 degrees, showing how the
@@ -71,7 +71,7 @@ PosAngle:
 NegAngle:
 	ADDI   -180        ; finish conversion to negative angle:
 	                   ;  angles 180 to 359 become -180 to -1
-	
+
 CheckAngle:
 	; AC now contains the +/- angular error from 0, meaning that
 	;  the discontinuity is at 179/-180 instead of 0/359
@@ -81,7 +81,7 @@ CheckAngle:
 	STORE  Temp
 	SHIFT  2          ; divide by two
 	ADD    Temp        ; add original value
-	
+
 	; Cap velcmd at +/-100 (a slow speed)
 	JPOS   CapPos      ; handle +/- separately
 CapNeg:
@@ -107,7 +107,7 @@ PosOK:
 NoTurn:
 	LOAD   Zero
 	JUMP   SendToMotors
-	
+
 	; The desired velocity (angular error * 1.5, capped at
 	;  +/-100, and with a 2-degree dead zone) is now in AC
 SendToMotors:
@@ -122,15 +122,15 @@ SendToMotors:
 	LOAD   Zero
 	SUB    Temp        ; AC = 0 - AC
 ;	ADD    Fmid        ; Could add an offset vel here to move forward
-	OUT    RVELCMD	
+	OUT    RVELCMD
 	OUT    SSEG2       ; debugging
-	
+
 	JUMP   Center      ; repeat forever
-	
+
 DeadZone:  DW 10       ; Actual deadzone will be /5 due to scaling above.
 	                   ; Note that you can place data anywhere.
                        ; Just be careful that it doesn't get executed.
-	
+
 Die:
 ; Sometimes it's useful to permanently stop execution.
 ; This will also catch the execution if it accidentally
@@ -145,7 +145,7 @@ Forever:
 	JUMP   Forever      ; Do this forever.
 DEAD: DW &HDEAD
 
-	
+
 ;***************************************************************
 ;* Subroutines
 ;***************************************************************
@@ -171,7 +171,7 @@ WACLoop:
 	JNEG   WACLoop
 	RETURN
 	WaitTime: DW 0     ; "local" variable.
-	
+
 ; This subroutine will get the battery voltage,
 ; and stop program execution if it is too low.
 ; SetupI2C must be executed prior to this.
@@ -203,7 +203,7 @@ DeadBatt:
 	OUT    XLEDS
 	CALL   Wait1       ; 1 second
 	JUMP   DeadBatt    ; repeat forever
-	
+
 ; Subroutine to read the A/D (battery voltage)
 ; Assumes that SetupI2C has been run
 GetBattLvl:
@@ -225,7 +225,7 @@ SetupI2C:
 	OUT    I2C_RDY     ; start the communication
 	CALL   BlockI2C    ; wait for it to finish
 	RETURN
-	
+
 ; Subroutine to block until I2C device is idle
 BlockI2C:
 	LOAD   Zero
