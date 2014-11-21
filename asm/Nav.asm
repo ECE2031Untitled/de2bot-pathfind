@@ -108,6 +108,45 @@ SETORIENTTOTHREE:
     LOAD   THREE
     STORE  ORIENT
     RETURN
+    
+    
+TTC:
+    LOAD TILESTOCOUNTS
+    JZERO END
+    
+    SUB ONE
+    JZERO SET1
+    
+    SUB ONE
+    JZERO SET2
+    
+    SUB ONE
+    JZERO SET3
+    
+    SUB ONE
+    JZERO SET4
+    
+    SUB ONE
+    JZERO SET5
+    
+SET1:  
+    LOAD ONET
+    STORE TILESTOCOUNTS
+SET2:  
+    LOAD TWOT
+    STORE TILESTOCOUNTS
+SET3:  
+    LOAD THREET
+    STORE TILESTOCOUNTS
+SET4:  
+    LOAD FOURT
+    STORE TILESTOCOUNTS
+SET5:
+    LOAD FIVET
+    STORE TILESTOCOUNTS
+
+END: RETURN    
+    
 
 
 ;Code to travel a given distance. Only input required is Q which should be the robot count units of the distance you want to travel.
