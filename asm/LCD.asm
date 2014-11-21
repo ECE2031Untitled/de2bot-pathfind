@@ -21,6 +21,13 @@ LCDWriteCharWait:
 
     RETURN
 
+;;--- void LCDWriteDigit(int d) ------------------------------------------------
+;; Write a single digit to the LCD (0 <= d <= 9).
+;;------------------------------------------------------------------------------
+LCDWriteDigit:
+    ADD     48
+    JUMP    LCDWriteChar ;; Tail-call
+
 ;;--- void LCDWriteStringz(int *str) -------------------------------------------
 ;; Write a null-terminated string to the LCD.
 ;;------------------------------------------------------------------------------
@@ -40,6 +47,27 @@ LCDWriteStringzDone:
 
 LCDWriteStringzTemp:
     DW      0
+
+;;--- void LCDWriteCoordinate(int x, int y) ------------------------------------
+;; Write a coordinate to the LCD. 0 <= x,y <= 9
+;;------------------------------------------------------------------------------
+LCDWriteCoordinateArgX: DW 0
+LCDWriteCoordinateArgY: DW 0
+
+LCDWriteCoordinate:
+    LOADI   40 ; '('
+    CALL    LCDWriteChar
+    LOAD    LCDWriteCoordinateArgX
+    CALL    LCDWriteDigit
+    LOADI   32 ; ' '
+    CALL    LCDWriteChar
+    LOADI   44 ; ','
+    CALL    LCDWriteChar
+    LOAD    LCDWriteCoordinateArgY
+    CALL    LCDWriteDigit
+    LOADI   41 ; ')'
+    CALL    LCDWriteChar
+    RETURN
 
 ;;--- void LCDSetPos(int pos) --------------------------------------------------
 ;; Set the cursor position in the LCD. 0 <= pos < 80. If pos > 40, it will be
