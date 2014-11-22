@@ -261,7 +261,8 @@ Main: ; "Real" program starts here.
     CALL Wait1
 
     
-    ; LOAD N1
+    
+LOAD N1
 SHIFT 4
 OR N2
 SHIFT 4
@@ -272,122 +273,116 @@ OR N4
 
 STORE N1234  
     
-    LOAD N1234
-    OUT SSEG1
+;     LOAD N1234
+;     OUT SSEG1
+;     
     
     
     
     
     
     
-    
-; ;---------------------------------------------------------------------------------
-; ;
-; ; MAKE THE ALIASES FOR THE VALUES
+;---------------------------------------------------------------------------------
+;
+; MAKE THE ALIASES FOR THE VALUES
+
+;MAKE M VALS (VALUES IF WE ROTATED BY 90 DEG TO THE RIGHT)
+LOAD N4
+STORE M1
+
+LOAD N1
+STORE M2
+
+LOAD N2
+STORE M3
+
+LOAD N3
+STORE M4
+
+
+
+;MAKE P VALS (VALUES IF WE ROTATED BY 180 DEG TO THE RIGHT)
+LOAD N3
+STORE P1
+
+LOAD N4
+STORE P2
+
+LOAD N1
+STORE P3
+
+LOAD N2
+STORE P4
+
+
+;MAKE Q VALS (VALUES IF WE ROTATED BY ANOTHER 270 DEG TO THE RIGHT)
+LOAD N2
+STORE Q1
+
+LOAD N3
+STORE Q2
+
+LOAD N4
+STORE Q3
+
+LOAD N1
+STORE Q4
 ; 
-; ;MAKE M VALS (VALUES IF WE ROTATED BY 90 DEG TO THE RIGHT)
-; LOAD N4
-; STORE M1
-; LOAD N1
-; STORE M2
-; LOAD N2
-; STORE M3
-; LOAD N3
-; STORE M4
-; 
-; ;MAKE P VALS (VALUES IF WE ROTATED BY 180 DEG TO THE RIGHT)
-; LOAD N3
-; STORE P1
-; LOAD N4
-; STORE P2
-; LOAD N1
-; STORE P3
-; LOAD N2
-; STORE P4
-; 
-; ;MAKE Q VALS (VALUES IF WE ROTATED BY ANOTHER 270 DEG TO THE RIGHT)
-; LOAD N2
-; STORE Q1
-; LOAD N3
-; STORE Q2
-; LOAD N4
-; STORE Q3
-; LOAD N1
-; STORE Q4
-; 
-; ; 
+
 ; ; STORE THESE INDIVIDUAL INTO WORDS, THIS WAY THEY CAN BE XOR WITH OUR SIGNATURES (ESSENTIALLY, COMPARED)
-; ; STORE N1, N2, N3, N4 INTO A WORD
-; LOAD N1
-; SHIFT 4
-; OR N2
-; SHIFT 4
-; OR N3 
-; SHIFT 4
-; OR N4
-; SHIFT 4
-; 
-; STORE N1234  
-; 
-; ; STORE M1, M2, M3, M4 INTO A WORD
-; LOAD M1
-; SHIFT 4
-; OR M2
-; SHIFT 4
-; OR M3 
-; SHIFT 4
-; OR M4
-; SHIFT 4
-; 
-; STORE M1234  
+
+; STORE M1, M2, M3, M4 INTO A WORD
+LOAD M1
+SHIFT 4
+OR M2
+SHIFT 4
+OR M3 
+SHIFT 4
+OR M4
+
+STORE M1234  
 ; 
 ; ; STORE P1, P2, P3, P4 INTO A WORD
-; LOAD P1
-; SHIFT 4
-; OR P2
-; SHIFT 4
-; OR P3 
-; SHIFT 4
-; OR P4
-; SHIFT 4
+LOAD P1
+SHIFT 4
+OR P2
+SHIFT 4
+OR P3 
+SHIFT 4
+OR P4
+
+STORE P1234  
 ; 
-; STORE P1234  
+; STORE Q1, Q2, Q3, Q4
+LOAD Q1
+SHIFT 4
+OR Q2
+SHIFT 4
+OR Q3 
+SHIFT 4
+OR Q4
+
+STORE Q1234  
+
+
+
+
+
 ; 
-; ; STORE Q1, Q2, Q3, Q4
-; LOAD Q1
-; SHIFT 4
-; OR Q2
-; SHIFT 4
-; OR Q3 
-; SHIFT 4
-; OR Q4
-; SHIFT 4
+; LOAD M1234
+; OUT SSEG2
 ; 
-; STORE Q1234  
+; CALL Wait1
+; CALL Wait1
+; CALL Wait1
 ; 
-; ; 
-; 
-; ;-------------------------------
-; LOAD N1234
+; LOAD P1234
 ; OUT SSEG1
 ; 
+; LOAD Q1234
+; OUT SSEG2
 ; 
 ; 
-;           LOADI 0
-;           OUT SSEG2
-; ; 
-; ; LOAD M1234
-; ; OUT SSEG2
-; ; 
-; ; CALL Wait1
-; ; CALL Wait1
-; ; CALL Wait1
-; ; 
-; ; LOAD P1234
-; ; OUT SSEG1
-; ; 
-; ; LOAD Q1234
-; ; OUT SSEG2
 ; 
 ; CALL Wait1
 ; CALL Wait1
@@ -395,417 +390,641 @@ STORE N1234
 ; CALL Wait1
 ; CALL Wait1
 ; CALL Wait1
+
+
 ; 
  ;;-------------------------------
 
 ; ; 
 ; ; ; NOW COMPARE TO THE SIGNATURES WE HAVE, USING XOR
 ; ; 
-; ;----compare to 1,1-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG11
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG11
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG11
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG11
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 1,2-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG12
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG12
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG12
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG12
-; 	JZERO FoundSig
-; ;------------------------------------------
-;   ;----compare to 1,3-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG13
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG13
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG13
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG13
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 1,4-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG14
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG14
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG14
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG14
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 2,1-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG21
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG21
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG21
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG21
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 2,2-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG22
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG22
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG22
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG22
-; 	JZERO FoundSig
-; ;------------------------------------------
-; 	;----compare to 2,3-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG23
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG23
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG23
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG23
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 2,4-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG24
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG24
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG24
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG24
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 3,1-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG31
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG31
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG31
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG31
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 3,2-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG32
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG32
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG32
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG32
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 3,3-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG33
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG33
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG33
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG33
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 3,4-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG34
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG34
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG34
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG34
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 4,1-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG41
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG41
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG41
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG41
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 4,2-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG42
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG42
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG42
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG42
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 4,3-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG43
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG43
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG43
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG43
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 4,4-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG44
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG44
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG44
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG44
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 5,3-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG53
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG53
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG53
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG53
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 5,4-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG54
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG54
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG54
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG54
-; 	JZERO FoundSig
-; ;------------------------------------------
-; ;----compare to 6,4-------------------------
-; 	LOAD N1234
-; 	STORE TEMPSIG
-; 	XOR SIG64
-; 	JZERO FoundSig
-; 	
-; 	LOAD M1234
-; 	STORE TEMPSIG
-; 	XOR SIG64
-; 	JZERO FoundSig
-; 	
-; 	LOAD P1234
-; 	STORE TEMPSIG
-; 	XOR SIG64
-; 	JZERO FoundSig
-; 	
-; 	LOAD Q1234
-; 	STORE TEMPSIG
-; 	XOR SIG64
-; 	JZERO FoundSig
-; ;------------------------------------------
-; 
-; 
-; 	
-;  	FoundSig:
-;  	LOAD TEMPSIG
-;  	OUT SSEG1  ;  output to seven seg display numer 1
+;----compare to 1,1-------------------------
+CompareTo11:
+    LOAD N1234
+	STORE TEMPSIG
+	XOR SIG11
+	JZERO FoundSig11
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG11
+	JZERO FoundSig11
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG11
+	JZERO FoundSig11
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG11
+	JZERO FoundSig11
+	
+    JUMP CompareTo12
+    
+    FoundSig11:
+   	 	LOADI 1
+    	OUT SSEG1
+    	LOADI 1
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 1,2-------------------------
+CompareTo12: 
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG12
+	JZERO FoundSig12
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG12
+	JZERO FoundSig12
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG12
+	JZERO FoundSig12
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG12
+	JZERO FoundSig12
+	
+	JUMP CompareTo13
+	
+	 FoundSig12:
+   	 	LOADI 1
+    	OUT SSEG1
+    	LOADI 2
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+  ;----compare to 1,3-------------------------
+ CompareTo13:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG13
+	JZERO FoundSig13
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG13
+	JZERO FoundSig13
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG13
+	JZERO FoundSig13
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG13
+	JZERO FoundSig13
+	
+	JUMP CompareTo14
+	
+	 FoundSig13:
+   	 	LOADI 1
+    	OUT SSEG1
+    	LOADI 3
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 1,4-------------------------    --
+CompareTo14:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG14
+	JZERO FoundSig14
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG14
+	JZERO FoundSig14
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG14
+	JZERO FoundSig14
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG14
+	JZERO FoundSig14
+	
+	JUMP CompareTo21
+	
+	 FoundSig14:
+   	 	LOADI 1
+    	OUT SSEG1
+    	LOADI 4
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 2,1-------------------------
+CompareTo21:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG21
+	JZERO FoundSig21
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG21
+	JZERO FoundSig21
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG21
+	JZERO FoundSig21
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG21
+	JZERO FoundSig21
+	
+	JUMP CompareTo22
+	
+	 FoundSig21:
+   	 	LOADI 2
+    	OUT SSEG1
+    	LOADI 1
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 2,2-------------------------
+CompareTo22:
+
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG22
+	JZERO FoundSig22
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG22
+	JZERO FoundSig22
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG22
+	JZERO FoundSig22
+	
+	
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG22
+	JZERO FoundSig22
+	
+	JUMP CompareTo23
+	
+	 FoundSig22:
+   	 	LOADI 2
+    	OUT SSEG1
+    	LOADI 2
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+	;----compare to 2,3-------------------------
+	CompareTo23:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG23
+	JZERO FoundSig23
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG23
+	JZERO FoundSig23
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG23
+	JZERO FoundSig23
+
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG23
+	JZERO FoundSig23
+	
+	JUMP CompareTo24
+	
+	 FoundSig23:
+   	 	LOADI 2
+    	OUT SSEG1
+    	LOADI 3
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 2,4-------------------------
+CompareTo24:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG24
+	JZERO FoundSig24
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG24
+	JZERO FoundSig24
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG24
+	JZERO FoundSig24
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG24
+	JZERO FoundSig24
+	
+	JUMP CompareTo31
+	FoundSig24:
+   	 	LOADI 2
+    	OUT SSEG1
+    	LOADI 4
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 3,1-------------------------
+CompareTo31:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG31
+	JZERO FoundSig31
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG31
+	JZERO FoundSig31
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG31
+	JZERO FoundSig31
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG31
+	JZERO FoundSig31
+	
+	JUMP CompareTo32
+	FoundSig31:
+   	 	LOADI 3
+    	OUT SSEG1
+    	LOADI 1
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 3,2-------------------------
+CompareTo32:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG32
+	JZERO FoundSig32
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG32
+	JZERO FoundSig32
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG32
+	JZERO FoundSig32
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG32
+	JZERO FoundSig32
+	
+	JUMP CompareTo33
+	FoundSig32:
+   	 	LOADI 3
+    	OUT SSEG1
+    	LOADI 2
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 3,3-------------------------
+CompareTo33:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG33
+	JZERO FoundSig33
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG33
+	JZERO FoundSig33
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG33
+	JZERO FoundSig33
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG33
+	JZERO FoundSig33
+	
+	JUMP CompareTo34
+	FoundSig33:
+   	 	LOADI 3
+    	OUT SSEG1
+    	LOADI 3
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 3,4-------------------------
+CompareTo34:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG34
+	JZERO FoundSig34
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG34
+	JZERO FoundSig34
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG34
+	JZERO FoundSig34
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG34
+	JZERO FoundSig34
+	
+	JUMP CompareTo41
+	FoundSig34:
+   	 	LOADI 3
+    	OUT SSEG1
+    	LOADI 4
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 4,1-------------------------
+CompareTo41:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG41
+	JZERO FoundSig41
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG41
+	JZERO FoundSig41
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG41
+	JZERO FoundSig41
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG41
+	JZERO FoundSig41
+	
+	JUMP CompareTo42
+	FoundSig41:
+   	 	LOADI 4
+    	OUT SSEG1
+    	LOADI 1
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 4,2-------------------------
+CompareTo42:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG42
+	JZERO FoundSig42
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG42
+	JZERO FoundSig42
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG42
+	JZERO FoundSig42
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG42
+	JZERO FoundSig42
+	
+	JUMP CompareTo43
+	FoundSig42:
+   	 	LOADI 4
+    	OUT SSEG1
+    	LOADI 2
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 4,3-------------------------
+CompareTo43:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG43
+	JZERO FoundSig43
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG43
+	JZERO FoundSig43
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG43
+	JZERO FoundSig43
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG43
+	JZERO FoundSig43
+	
+	JUMP CompareTo44
+	FoundSig43:
+   	 	LOADI 4
+    	OUT SSEG1
+    	LOADI 3
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 4,4-------------------------
+CompareTo44:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG44
+	JZERO FoundSig44
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG44
+	JZERO FoundSig44
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG44
+	JZERO FoundSig44
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG44
+	JZERO FoundSig44
+	
+	JUMP CompareTo53
+	FoundSig44:
+   	 	LOADI 4
+    	OUT SSEG1
+    	LOADI 4
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 5,3-------------------------
+CompareTo53:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG53
+	JZERO FoundSig53
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG53
+	JZERO FoundSig53
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG53
+	JZERO FoundSig53
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG53
+	JZERO FoundSig53
+	
+	JUMP CompareTo54
+	FoundSig53:
+   	 	LOADI 5
+    	OUT SSEG1
+    	LOADI 3
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 5,4-------------------------
+CompareTo54:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG54
+	JZERO FoundSig54
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG54
+	JZERO FoundSig54
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG54
+	JZERO FoundSig54
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG54
+	JZERO FoundSig54
+	
+	JUMP CompareTo64
+	FoundSig54:
+   	 	LOADI 5
+    	OUT SSEG1
+    	LOADI 4
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+;----compare to 6,4-------------------------
+CompareTo64:
+	LOAD N1234
+	STORE TEMPSIG
+	XOR SIG64
+	JZERO FoundSig64
+	
+	LOAD M1234
+	STORE TEMPSIG
+	XOR SIG64
+	JZERO FoundSig64
+	
+	LOAD P1234
+	STORE TEMPSIG
+	XOR SIG64
+	JZERO FoundSig64
+	
+	LOAD Q1234
+	STORE TEMPSIG
+	XOR SIG64
+	JZERO FoundSig64
+	
+	JUMP OutofCheck
+	FoundSig64:
+   	 	LOADI 6
+    	OUT SSEG1
+    	LOADI 4
+    	OUT SSEG2
+    	CALL Wait1
+		CALL Wait1
+		CALL Wait1
+;------------------------------------------
+
+OutofCheck:
+	
+ 		CALL Wait1
+		CALL Wait1
+
+
+
+ 	
 
 
 
