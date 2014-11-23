@@ -7,6 +7,12 @@
 ;;     X3, Y3 - The third coordinate
 ;;------------------------------------------------------------------------------
 GetCoordinates:
+    IN      XIO
+    AND     GetCoordinatesKey3Mask
+    JPOS    GetCoordinatesDontExit
+    RETURN
+
+GetCoordinatesDontExit:
     IN      SWITCHES
     AND     Three
     STORE   Y1
@@ -72,3 +78,6 @@ GetCoordinates:
 ;;------------------------------------------------------------------------------
 InputsTemp1: DW 0
 InputsTemp2: DW 0
+
+GetCoordinatesKey3Mask:
+    DW      &B0000000000000100
