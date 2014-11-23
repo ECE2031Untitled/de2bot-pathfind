@@ -1,5 +1,8 @@
 # Compiled SCOMP assembly files
 *.mif
+!SIN_table.mif
+!COS_table.mif
+!SOUND.mif
 
 # SCASM error files
 *.err
