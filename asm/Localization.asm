@@ -308,7 +308,7 @@ CompareTo11:
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 1,2-------------------------
 CompareTo12:
@@ -339,7 +339,7 @@ CompareTo12:
     	STORE X0
     	LOADI 2
     	STORE Y0
-    	
+
 ;------------------------------------------
   ;----compare to 1,3-------------------------
  CompareTo13:
@@ -370,7 +370,7 @@ CompareTo12:
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 1,4-------------------------    --
 CompareTo14:
@@ -401,7 +401,7 @@ CompareTo14:
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 2,1-------------------------
 CompareTo21:
@@ -432,7 +432,7 @@ CompareTo21:
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 2,2-------------------------
 CompareTo22:
@@ -466,7 +466,7 @@ CompareTo22:
     	STORE X0
     	LOADI 2
     	STORE Y0
-    	
+
 ;------------------------------------------
 	;----compare to 2,3-------------------------
 	CompareTo23:
@@ -497,7 +497,7 @@ CompareTo22:
     	STORE X0
     	LOADI 3
     	STORE Y0
- 
+
 ;------------------------------------------
 ;----compare to 2,4-------------------------
 CompareTo24:
@@ -527,7 +527,7 @@ CompareTo24:
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 3,1-------------------------
 CompareTo31:
@@ -557,7 +557,7 @@ CompareTo31:
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 3,2-------------------------
 CompareTo32:
@@ -587,7 +587,7 @@ CompareTo32:
     	STORE X0
     	LOADI 2
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 3,3-------------------------
 CompareTo33:
@@ -617,7 +617,7 @@ CompareTo33:
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 3,4-------------------------
 CompareTo34:
@@ -647,7 +647,7 @@ CompareTo34:
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 4,1-------------------------
 CompareTo41:
@@ -677,7 +677,7 @@ CompareTo41:
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 4,2-------------------------
 CompareTo42:
@@ -707,7 +707,7 @@ CompareTo42:
     	STORE X0
     	LOADI 2
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 4,3-------------------------
 CompareTo43:
@@ -737,7 +737,7 @@ CompareTo43:
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 4,4-------------------------
 CompareTo44:
@@ -767,7 +767,7 @@ CompareTo44:
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 5,3-------------------------
 CompareTo53:
@@ -797,7 +797,7 @@ CompareTo53:
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 5,4-------------------------
 CompareTo54:
@@ -827,7 +827,7 @@ CompareTo54:
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	
+
 ;------------------------------------------
 ;----compare to 6,4-------------------------
 CompareTo64:
@@ -857,9 +857,9 @@ CompareTo64:
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	
-    	
-    	
+
+
+
   ;----compare to 6,4 1-------------------------
 CompareTo641:
 	LOAD N1234
@@ -887,10 +887,10 @@ CompareTo641:
    	 	LOADI 6
     	STORE X0
     	LOADI 4
-    	STORE Y0  	
-    	
-    	
-    
+    	STORE Y0
+
+
+
     	;----compare to 6,4 2-------------------------
 CompareTo642:
 	LOAD N1234
@@ -918,10 +918,10 @@ CompareTo642:
    	 	LOADI 6
     	STORE X0
     	LOADI 4
-    	STORE Y0	
-    	
-    	
-    	
+    	STORE Y0
+
+
+
     ;----compare to 1,4 1-------------------------
 CompareTo141:
 	LOAD N1234
@@ -949,9 +949,9 @@ CompareTo141:
    	 	LOADI 1
     	STORE X0
     	LOADI 4
-    	STORE Y0	
-    	
-    
+    	STORE Y0
+
+
     ;----compare to 1,4 2-------------------------
     CompareTo142:
 	LOAD N1234
@@ -979,9 +979,9 @@ CompareTo141:
    	 	LOADI 1
     	STORE X0
     	LOADI 4
-    	STORE Y0		
-    	
-   
+    	STORE Y0
+
+
 ;------------------------------------------
 
 OutofCheck:
@@ -990,8 +990,8 @@ OutofCheck:
 		OUT SSEG1
 		LOAD Y0
 		OUT SSEG2
-		
-		
+
+
 		CALL Wait1
 		CALL Wait1
 		CALL Wait1
@@ -1049,10 +1049,6 @@ RETURN
 	TEMPDIST0: DW 0
 	TEMPDIST5: DW 0
 	DegCust:   DW 77
-	FSpeed:   DW 175
-	RSpeed:   DW -175
-	X0:       DW 0
-	Y0:       DW 0
 ; vals for word
 	N1:       DW 0
 	N2:       DW 0
