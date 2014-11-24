@@ -17,7 +17,6 @@ output.asm
 *.tdo
 *.sdo
 *.tao
-*.pin
 
 # Quartus compilation files
 db/*
