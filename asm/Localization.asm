@@ -277,37 +277,6 @@ OR Q4
 STORE Q1234
 
 
-
-
-
-;
-; LOAD M1234
-; OUT SSEG2
-;
-; CALL Wait1
-; CALL Wait1
-; CALL Wait1
-;
-; LOAD P1234
-; OUT SSEG1
-;
-; LOAD Q1234
-; OUT SSEG2
-;
-;
-;
-; CALL Wait1
-; CALL Wait1
-; CALL Wait1
-; CALL Wait1
-; CALL Wait1
-; CALL Wait1
-
-
-;
- ;;-------------------------------
-
-; ;
 ; ; ; NOW COMPARE TO THE SIGNATURES WE HAVE, USING XOR
 ; ;
 ;----compare to 1,1-------------------------
