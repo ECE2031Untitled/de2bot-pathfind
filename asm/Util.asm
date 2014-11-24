@@ -68,8 +68,8 @@ RotateTo:
     SUB     RotateToTemp
 
     JZERO   RotateToDone
-    JPOS    RotateToCW
-    JNEG    RotateToCWW
+    JPOS    RotateToCCW
+    JNEG    RotateToCW
 
 RotateToCW:
     CALL    RotateCW
