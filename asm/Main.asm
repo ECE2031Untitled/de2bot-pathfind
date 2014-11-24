@@ -1,9 +1,11 @@
 JUMP    Main
 
 #include "LCD.asm"
-#include "Localization.asm"
+
 #include "Align.asm"
-;#include "ShortestPath.asm"
+#include "Localization.asm"
+#include "ShortestPath.asm"
+#include "Nav.asm"
 
 ;;--- void Main() --------------------------------------------------------------
 ;; Main - Entry point for the program.
@@ -23,15 +25,13 @@ Main:
     ;; Wait for key3 to be pressed
     CALL    WaitForKey3
 
-    ;; Clear the screen
-    LOADI   LCDInitStringz
-    CALL    LCDWriteStringz
+    CALL    LCDResetScreen
 
-;     ;; Align the robot and halt
-;     LOADI   270
-;     CALL    AlignRobot
-;     LOAD    AlignRobot2MinDist1
-;     CALL    RotateTo
+    ;; Align the robot and halt
+    LOADI   270
+    CALL    AlignRobot
+    LOAD    AlignRobot2MinDist1
+    CALL    RotateTo
 
     CALL Localization
     LOAD X0
@@ -40,19 +40,9 @@ Main:
     STORE LCDWriteCoordinateArgY
     CALL LCDWriteCoordinate
 
-    ;; TODO, find initial coodinates
-;    CALL    ShortestPath
+    ; JUMP    ShortestPath ; Tail-call
     ;; TODO, goto coordinates along shortest path
 
     ;; Done
     CALL    Shutdown
-    CALL    Halt
-
-    
-    
-    
-    
-    	X0:       DW 0
-        Y0:       DW 0
-        FSlow:    DW 150
-        RSlow:    DW -150
+    JUMP    Halt        ;; Tail-call
