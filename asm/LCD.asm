@@ -81,6 +81,13 @@ LCDSetPos:
 LCDSetPosCmd:
     DW      &H8080
 
+;;--- void LCDResetScreen() ----------------------------------------------------
+;; Completely reset the LCD screen.
+;;------------------------------------------------------------------------------
+LCDResetScreen:
+    LOADI   LCDInitStringz
+    JUMP    LCDWriteStringz ;; Tail-call
+
 ;;--- int LCDInitStringz[] -----------------------------------------------------
 ;; A null-terminated string which will initialize the LCD if written to it.
 ;;------------------------------------------------------------------------------

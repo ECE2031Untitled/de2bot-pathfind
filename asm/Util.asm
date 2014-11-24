@@ -12,9 +12,7 @@ Shutdown:
     OUT     RVELCMD
     OUT     LVELCMD
     OUT     SONAREN
-    LOADI   LCDInitStringz
-    CALL    LCDWriteStringz
-    RETURN
+    JUMP    LCDResetScreen ;; Tail-call
 
 ;;--- void Halt() --------------------------------------------------------------
 ;; Effectively stop the CPU.
