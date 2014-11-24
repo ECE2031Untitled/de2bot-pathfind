@@ -25,7 +25,7 @@ LCDWriteCharWait:
 ;; Write a single digit to the LCD (0 <= d <= 9).
 ;;------------------------------------------------------------------------------
 LCDWriteDigit:
-    ADD     48
+    ADDI    48
     JUMP    LCDWriteChar ;; Tail-call
 
 ;;--- void LCDWriteStringz(int *str) -------------------------------------------
