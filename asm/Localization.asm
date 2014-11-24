@@ -1094,6 +1094,8 @@ RETURN
     SIG12:    DW &H2310
     SIG13:    DW &H1420
     SIG14:    DW &H0530
+    SIG14_1:    DW &H0430  ; these are just in case of errors, where 5 blocks is read as 4 or 6
+    SIG14_2:    DW &H0630
     SIG21:    DW &H3201
     SIG22:    DW &H2211
     SIG23:    DW &H1321
@@ -1109,3 +1111,5 @@ RETURN
     SIG53:    DW &H1004
     SIG54:    DW &H0114
     SIG64:    DW &H0005
+    SIG64_1:    DW &H0004 ; these are just in case of errors, where 5 blocks is read as 4 or 6
+    SIG64_2:    DW &H0006
