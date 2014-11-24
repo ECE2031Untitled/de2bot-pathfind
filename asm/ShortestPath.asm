@@ -2,19 +2,22 @@
 #include "Constant.asm"
 #include "Util.asm"
 
-;;--- void ShortestPath() ------------------------------------------------------
-;; ???
+;;--- void ShortestPathFindRegion(int *x, int *y, int *r) ----------------------
+;;
 ;;------------------------------------------------------------------------------
-ShortestPath:
-        ; first for X0
-        LOAD    X0      ; AC = X0
+ShortestPathFindRegionX: DW 0
+ShortestPathFindRegionY: DW 0
+ShortestPathFindRegionR: DW 0
+
+ShortestPathFindRegion:
+        ILOAD   ShortestPathFindRegionX ; AC = *X
         SUB     TWO     ; AC = X0 - 2
         JPOS    ROnth0  ; This point is on the right side. So region1 or region3 (RTwth:
                         ; Otherwise: region 2
         LOADI   2       ; In Reg 2, AC = 2
         JUMP    DR0
 
-ROnth0: LOAD    Y0      ; AC = Y0
+ROnth0: ILOAD   ShortestPathFindRegionY ; AC = Y0
         SUB     TWO     ; AC = Y0 - 2
         JPOS    ROne0   ; if Y0 - 2 > 0, then in region one
         LOADI   3       ; Otherwise , region 3
@@ -23,396 +26,130 @@ ROnth0: LOAD    Y0      ; AC = Y0
 ROne0:  LOADI   1
         JUMP    DR0
 
-DR0:    STORE   R0      ; Store what's in the AC into addr R0
-        ;JUMP   EoR
+DR0:    ISTORE   ShortestPathFindRegionR ; Store what's in the AC into addr R0
+    RETURN
 
-;-------------------------------------------------------------------------
+;;--- void ShortestPathCalcDist(int *x1, int *x2, int *y1, int *y2, int *r1, int *r2, int *dist)
+;;
+;;------------------------------------------------------------------------------
+ShortestPathCalcDistX1: DW 0
+ShortestPathCalcDistX2: DW 0
+ShortestPathCalcDistY1: DW 0
+ShortestPathCalcDistY2: DW 0
+ShortestPathCalcDistR1: DW 0
+ShortestPathCalcDistR2: DW 0
+ShortestPathCalcDistDist: DW 0
 
-        LOAD    X1      ; AC = X0
-        SUB     TWO     ; AC = X0 - 2
-        JPOS    ROnth1  ; This point is on the right side. So region1 or region3 (RTwth:
-                        ; Otherwise: region 2
-        LOADI   2       ; In Reg 2, AC = 2
-        JUMP    DR1
+ShortestPathCalcDistTemp: DW 0
 
-ROnth1: LOAD    Y1      ; AC = Y0
-        SUB     TWO     ; AC = Y0 - 2
-        JPOS    ROne1   ; if Y0 - 2 > 0, then in region one
-        LOADI   3       ; Otherwise , region 3
-        JUMP    DR1
-
-ROne1:  LOADI   1
-        JUMP    DR1
-
-DR1:    STORE   R1      ; Store what's in the AC into addr R0
-
-
-
-;-------------------------------------------------------------------------
-
-        LOAD    X2      ; AC = X0
-        SUB     TWO     ; AC = X0 - 2
-        JPOS    ROnth2  ; This point is on the right side. So region1 or region3 (RTwth:
-                        ; Otherwise: region 2
-        LOADI   2       ; In Reg 2, AC = 2
-        JUMP    DR2
-
-ROnth2: LOAD    Y2      ; AC = Y0
-        SUB     TWO     ; AC = Y0 - 2
-        JPOS    ROne2   ; if Y0 - 2 > 0, then in region one
-        LOADI   3       ; Otherwise , region 3
-        JUMP    DR2
-
-ROne2:  LOADI   1
-        JUMP    DR2
-
-DR2:    STORE   R2      ; Store what's in the AC into addr R0
-
-
-;-------------------------------------------------------------------------
-
-        LOAD    X3      ; AC = X0
-        SUB     TWO     ; AC = X0 - 2
-        JPOS    ROnth3  ; This point is on the right side. So region1 or region3 (RTwth:
-                        ; Otherwise: region 2
-        LOADI   2       ; In Reg 2, AC = 2S
-        JUMP    DR3
-
-ROnth3: LOAD    Y3      ; AC = Y0
-        SUB     TWO     ; AC = Y0 - 2
-        JPOS    ROne3   ; if Y0 - 2 > 0, then in region one
-        LOADI   3       ; Otherwise , region 3
-        JUMP    DR3
-
-ROne3:  LOADI   1
-        JUMP    DR3
-
-DR3:    STORE   R3      ; Store what's in the AC into addr R0
-
-;-------------------------------BY HERE, ALL REGIONS DETERMINED---------------
-
-
-
-
-;-------------- Calculate Dist b/t pairs of pts
-; dist 01
-    LOAD    R0      ; AC = RO
+ShortestPathCalcDist:
+    ILOAD   ShortestPathCalcDistR1      ; AC = RO
     SUB     ONE
     JPOS    D1NOTR1 ; START POINT NOT IN R1
     ; STARTING POINT IN R1
-    LOAD    R1      ; AC = R1
+    ILOAD   ShortestPathCalcDistR2      ; AC = R1
     SUB     THREE
     JZERO   CALD12  ; R0 = 1, R1 = 3
     JUMP    CALD11
 
 D1NOTR1:        ; DISTANCE1  STARTING PT NOT R1
-    LOAD    R0      ; AC = R0
+    ILOAD   ShortestPathCalcDistR1      ; AC = R0
     SUB     THREE
     JZERO   D1THREE     ;STARTING POINT IN R3
     JUMP    CALD11
 
 D1THREE:
-    LOAD    R1
+    ILOAD   ShortestPathCalcDistR2
     SUB     ONE
     JZERO   CALD12      ; ENDING POINT IN R1
 
 CALD11:     ; DISTANCE 1 METHOD1
-    LOAD    X0
-    SUB     X1
+    ILOAD   ShortestPathCalcDistX2
+    STORE   ShortestPathCalcDistTemp
+    ILOAD   ShortestPathCalcDistX1
+    SUB     ShortestPathCalcDistTemp
     JPOS    D1NEXT1
     JZERO   D1NEXT1
     CALL    Negate
 
 D1NEXT1:
     STORE   DIFFX
-    LOAD    Y0
-    SUB     Y1
+    ILOAD   ShortestPathCalcDistY2
+    STORE   ShortestPathCalcDistTemp
+    ILOAD   ShortestPathCalcDistY1
+    SUB     ShortestPathCalcDistTemp
     JPOS    D1STORE
     JZERO   D1STORE
     CALL    Negate
     JUMP    D1STORE
 
 CALD12:     ; DISTANCE 1 METHOD2
-    LOAD    X0
-    ADD     X1
+    ILOAD   ShortestPathCalcDistX1
+    STORE   ShortestPathCalcDistTemp
+    ILOAD   ShortestPathCalcDistX2
+    ADD     ShortestPathCalcDistTemp
     SUB     FOUR
     STORE   DIFFX
-    LOAD    Y0
-    SUB     Y1
+    ILOAD   ShortestPathCalcDistY2
+    STORE   ShortestPathCalcDistTemp
+    ILOAD   ShortestPathCalcDistY1
+    SUB     ShortestPathCalcDistTemp
     JPOS    D1STORE
     JZERO   D1STORE
     CALL    Negate
     JUMP    D1STORE
 
 D1STORE:
-    ADD DIFFX
-    STORE   DIST01
+    ADD     DIFFX
+    ISTORE  ShortestPathCalcDistDist
+    RETURN
 
-; dist 02 ----------------------------------------------
-    LOAD    R0      ; AC = RO
-    SUB     ONE
-    JPOS    D2NOTR1 ; START POINT NOT IN R1
-    ; STARTING POINT IN R1
-    LOAD    R2      ; AC = R1
-    SUB     THREE
-    JZERO   CALD22  ; R0 = 1, R1 = 3
-    JUMP    CALD21
+;;--- void ShortestPath() ------------------------------------------------------
+;; ???
+;;------------------------------------------------------------------------------
+ShortestPath:
 
-D2NOTR1:        ; DISTANCE1  STARTING PT NOT R1
-    LOAD    R0      ; AC = R0
-    SUB     THREE
-    JZERO   D2THREE     ;STARTING POINT IN R3
-    JUMP    CALD21
+#define CALL_ShortestPathFindRegion(x, y, r)                                \
+    __nl__ LOADI   x                                                        \
+    __nl__ STORE   ShortestPathFindRegionX                                  \
+    __nl__ LOADI   y                                                        \
+    __nl__ STORE   ShortestPathFindRegionY                                  \
+    __nl__ LOADI   r                                                        \
+    __nl__ STORE   ShortestPathFindRegionR                                  \
+    __nl__ CALL    ShortestPathFindRegion                                   \
 
-D2THREE:
-    LOAD    R2
-    SUB     ONE
-    JZERO   CALD22      ; ENDING POINT IN R1
+    CALL_ShortestPathFindRegion(X0, Y0, R0)
+    CALL_ShortestPathFindRegion(X1, Y1, R1)
+    CALL_ShortestPathFindRegion(X2, Y2, R2)
+    CALL_ShortestPathFindRegion(X3, Y3, R3)
 
-CALD21:     ; DISTANCE 1 METHOD1
-    LOAD    X0
-    SUB     X2
-    JPOS    D2NEXT1
-    JZERO   D2NEXT1
-    CALL    Negate
+#undef CALL_ShortestPathFindRegion
 
-D2NEXT1:
-    STORE   DIFFX
-    LOAD    Y0
-    SUB     Y2
-    JPOS    D2STORE
-    JZERO   D2STORE
-    CALL    Negate
-    JUMP    D2STORE
+#define CALL_ShortestPathCalcDist(x1, x2, y1, y2, r1, r2, dist)             \
+    __nl__ LOADI    x1                                                      \
+    __nl__ STORE    ShortestPathCalcDistX1                                  \
+    __nl__ LOADI    x2                                                      \
+    __nl__ STORE    ShortestPathCalcDistX2                                  \
+    __nl__ LOADI    y1                                                      \
+    __nl__ STORE    ShortestPathCalcDistY1                                  \
+    __nl__ LOADI    y2                                                      \
+    __nl__ STORE    ShortestPathCalcDistY2                                  \
+    __nl__ LOADI    r1                                                      \
+    __nl__ STORE    ShortestPathCalcDistR1                                  \
+    __nl__ LOADI    r2                                                      \
+    __nl__ STORE    ShortestPathCalcDistR2                                  \
+    __nl__ LOADI    dist                                                    \
+    __nl__ STORE    ShortestPathCalcDistDist                                \
+    __nl__ CALL     ShortestPathCalcDist                                    \
 
-CALD22:     ; DISTANCE 1 METHOD2
-    LOAD    X0
-    ADD     X2
-    SUB     FOUR
-    STORE   DIFFX
-    LOAD    Y0
-    SUB     Y2
-    JPOS    D2STORE
-    JZERO   D2STORE
-    CALL    Negate
-    JUMP    D2STORE
+    CALL_ShortestPathCalcDist(X0, X1, Y0, Y1, R0, R1, DIST01)
+    CALL_ShortestPathCalcDist(X0, X2, Y0, Y2, R0, R2, DIST02)
+    CALL_ShortestPathCalcDist(X0, X3, Y0, Y3, R0, R3, DIST03)
+    CALL_ShortestPathCalcDist(X1, X2, Y1, Y2, R1, R2, DIST12)
+    CALL_ShortestPathCalcDist(X1, X3, Y1, Y3, R1, R3, DIST13)
+    CALL_ShortestPathCalcDist(X2, X3, Y2, Y3, R2, R3, DIST23)
 
-D2STORE:
-    ADD DIFFX
-    STORE   DIST02
-
-; dist 03 ----------------------------------------------------
-    LOAD    R0      ; AC = RO
-    SUB     ONE
-    JPOS    D3NOTR1 ; START POINT NOT IN R1
-    ; STARTING POINT IN R1
-    LOAD    R3      ; AC = R1
-    SUB     THREE
-    JZERO   CALD32  ; R0 = 1, R1 = 3
-    JUMP    CALD31
-
-D3NOTR1:        ; DISTANCE1  STARTING PT NOT R1
-    LOAD    R0      ; AC = R0
-    SUB     THREE
-    JZERO   D3THREE     ;STARTING POINT IN R3
-    JUMP    CALD31
-
-D3THREE:
-    LOAD    R3
-    SUB     ONE
-    JZERO   CALD32      ; ENDING POINT IN R1
-
-CALD31:     ; DISTANCE 1 METHOD1
-    LOAD    X0
-    SUB     X3
-    JPOS    D3NEXT1
-    JZERO   D3NEXT1
-    CALL    Negate
-
-D3NEXT1:
-    STORE   DIFFX
-    LOAD    Y0
-    SUB     Y3
-    JPOS    D3STORE
-    JZERO   D3STORE
-    CALL    Negate
-    JUMP    D3STORE
-
-CALD32:     ; DISTANCE 1 METHOD2
-    LOAD    X0
-    ADD     X3
-    SUB     FOUR
-    STORE   DIFFX
-    LOAD    Y0
-    SUB     Y3
-    JPOS    D3STORE
-    JZERO   D3STORE
-    CALL    Negate
-    JUMP    D3STORE
-
-D3STORE:
-    ADD DIFFX
-    STORE   DIST03
-
-; dist 12 ----------------------------------------------
-    LOAD    R1      ; AC = RO
-    SUB     ONE
-    JPOS    D4NOTR1 ; START POINT NOT IN R1
-    ; STARTING POINT IN R1
-    LOAD    R2      ; AC = R1
-    SUB     THREE
-    JZERO   CALD42  ; R0 = 1, R1 = 3
-    JUMP    CALD41
-
-D4NOTR1:        ; DISTANCE1  STARTING PT NOT R1
-    LOAD    R1      ; AC = R0
-    SUB     THREE
-    JZERO   D4THREE     ;STARTING POINT IN R3
-    JUMP    CALD41
-
-D4THREE:
-    LOAD    R2
-    SUB     ONE
-    JZERO   CALD42      ; ENDING POINT IN R1
-
-CALD41:     ; DISTANCE 1 METHOD1
-    LOAD    X1
-    SUB     X2
-    JPOS    D4NEXT1
-    JZERO   D4NEXT1
-    CALL    Negate
-
-D4NEXT1:
-    STORE   DIFFX
-    LOAD    Y1
-    SUB     Y2
-    JPOS    D4STORE
-    JZERO   D4STORE
-    CALL    Negate
-    JUMP    D4STORE
-
-CALD42:     ; DISTANCE 1 METHOD2
-    LOAD    X1
-    ADD     X2
-    SUB     FOUR
-    STORE   DIFFX
-    LOAD    Y1
-    SUB     Y2
-    JPOS    D4STORE
-    JZERO   D4STORE
-    CALL    Negate
-    JUMP    D4STORE
-
-D4STORE:
-    ADD DIFFX
-    STORE   DIST12
-
-; dist 13 ----------------------------------------------
-    LOAD    R1      ; AC = RO
-    SUB     ONE
-    JPOS    D5NOTR1 ; START POINT NOT IN R1
-    ; STARTING POINT IN R1
-    LOAD    R3      ; AC = R1
-    SUB     THREE
-    JZERO   CALD52  ; R0 = 1, R1 = 3
-    JUMP    CALD51
-
-D5NOTR1:        ; DISTANCE1  STARTING PT NOT R1
-    LOAD    R1      ; AC = R0
-    SUB     THREE
-    JZERO   D5THREE     ;STARTING POINT IN R3
-    JUMP    CALD51
-
-D5THREE:
-    LOAD    R3
-    SUB     ONE
-    JZERO   CALD52      ; ENDING POINT IN R1
-
-CALD51:     ; DISTANCE 1 METHOD1
-    LOAD    X1
-    SUB     X3
-    JPOS    D5NEXT1
-    JZERO   D5NEXT1
-    CALL    Negate
-
-D5NEXT1:
-    STORE   DIFFX
-    LOAD    Y1
-    SUB     Y3
-    JPOS    D5STORE
-    JZERO   D5STORE
-    CALL    Negate
-    JUMP    D5STORE
-
-CALD52:     ; DISTANCE 1 METHOD2
-    LOAD    X1
-    ADD     X3
-    SUB     FOUR
-    STORE   DIFFX
-    LOAD    Y1
-    SUB     Y3
-    JPOS    D5STORE
-    JZERO   D5STORE
-    CALL    Negate
-    JUMP    D5STORE
-
-D5STORE:
-    ADD DIFFX
-    STORE   DIST13
-
-; dist 13 ----------------------------------------------
-    LOAD    R2      ; AC = RO
-    SUB     ONE
-    JPOS    D6NOTR1 ; START POINT NOT IN R1
-    ; STARTING POINT IN R1
-    LOAD    R3      ; AC = R1
-    SUB     THREE
-    JZERO   CALD62  ; R0 = 1, R1 = 3
-    JUMP    CALD61
-
-D6NOTR1:        ; DISTANCE1  STARTING PT NOT R1
-    LOAD    R2      ; AC = R0
-    SUB     THREE
-    JZERO   D6THREE     ;STARTING POINT IN R3
-    JUMP    CALD61
-
-D6THREE:
-    LOAD    R3
-    SUB     ONE
-    JZERO   CALD62      ; ENDING POINT IN R1
-
-CALD61:     ; DISTANCE 1 METHOD1
-    LOAD    X2
-    SUB     X3
-    JPOS    D6NEXT1
-    JZERO   D6NEXT1
-    CALL    Negate
-
-D6NEXT1:
-    STORE   DIFFX
-    LOAD    Y2
-    SUB     Y3
-    JPOS    D6STORE
-    JZERO   D6STORE
-    CALL    Negate
-    JUMP    D6STORE
-
-CALD62:     ; DISTANCE 1 METHOD2
-    LOAD    X2
-    ADD     X3
-    SUB     FOUR
-    STORE   DIFFX
-    LOAD    Y2
-    SUB     Y3
-    JPOS    D6STORE
-    JZERO   D6STORE
-    CALL    Negate
-    JUMP    D6STORE
-
-D6STORE:
-    ADD DIFFX
-    STORE   DIST23
-
+#undef CALL_ShortestPathCalcDist
 
 ;--------- Calculating the total distances
     LOAD    DIST01
@@ -629,7 +366,7 @@ JUMP    Main
 
 ; pseudo subroutine holding place for Stephen's code
 STEPHEN:
-    RETURN
+    JUMP    NAV ;; Tail-call
 
 ; PATH TO PATH. FROM START TO TO.
 ; OUT: STEPX, STEPY, DIR: 0 first X then Y, 1 first Y then X
@@ -844,11 +581,15 @@ POINT33:        ; POINT THREE IS X2
     RETURN
 
 ; INPUTS
+; X, Y - Coordinates
+; D - Direction (0, 1, 2, 3)
+;; Starting position
 X0:     DW      &H0001  ; addr H010, VALUE 0
 Y0:     DW      &H0001
 D0:     DW      &H0000
 R0:     DW      &H0001
 
+;; First coordinate
 X1:     DW      &H0003
 Y1:     DW      &H0002
 R1:     DW      &H0002
@@ -857,6 +598,7 @@ GOX1:   DW      &H0000
 GOY1:   DW      &H0000
 GOR1:   DW      &H0000
 
+;; Second coordinate
 X2:     DW      &H0003
 Y2:     DW      &H0003
 R2:     DW      &H0000
@@ -865,6 +607,7 @@ GOX2:   DW      &H0000
 GOY2:   DW      &H0000
 GOR2:   DW      &H0000
 
+;; Third coordinate
 X3:     DW      &H0003
 Y3:     DW      &H0004
 R3:     DW      &H0000
@@ -885,6 +628,8 @@ TEMPX:  DW      &H0000
 TEMPY:  DW      &H0000
 ; TEMPR:    DW      &H0000
 
+;; Outputs - Difference in x and y and whether to go X first then Y (DIR = 0),
+;;           or Y first then X (DIR = 1).
 STEPX:  DW      &H0000
 STEPY:  DW      &H0000
 DIR:    DW      &H0000
