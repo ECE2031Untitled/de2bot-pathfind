@@ -1,82 +1,43 @@
-; SimpleRobotProgram.asm
-; Created by Kevin Johnson
-; (no copyright applied; edit freely, no attribution necessary)
-; This program does basic initialization of the DE2Bot
-; and provides an example of some peripherals.
-
-; Section labels are for clarity only.
-
-
 Localization:
-	OUT    RESETPOS    ; reset odometry in case wheels moved after programming	
-;---------  PRELAB -------------------------------------
-; DERP: 
-; 	LOAD   FMid
-; 	OUT    LVELCMD     ; Stop motors
-; 	OUT    RVELCMD
-; 	
-; 	IN XPOS
-; 	SUB FourFeet
-; 	
-; 	
-; 	JNEG DERP  ; keep going if hasnt gone to 4ft
-; 	
-; 	
-; ; 	; MAKE IT STOP
-; ; 	LOAD   Zero
-; ; 	OUT    LVELCMD     ; Stop motors
-; ; 	OUT    RVELCMD
-; 	
-; 	
-; 	Rotate:
-; 	LOAD FSlow ;check current angle, turn  it 90 degrees
-; 	OUT   RVELCMD
-; 	LOAD  RSlow 
-; 	OUT   LVELCMD
-; 	
-; 	;LOAD Deg90   ; load the theta we want to test
-; 	IN THETA
-; 	SUB  Deg90
-; 	
-; 	JNEG Rotate
-; 	--------------------------------------
+	OUT    RESETPOS    ; reset odometry in case wheels moved after programming
+
 ; ------------------- BEGINNING OF LOCALIZATION CODE --------------------------------------------------------------------------------------------
 	;----------------------------------------------------
 	LOADI &B100001
     OUT SONAREN ; turn on sonars 0 and 5
     ; -------------get N1 from SENSOR 0
-    
-    CALL Wait1  
-    
-	IN DIST0  ; take in distance from 0th
-	OUT SSEG1  ; 
-    STORE TEMPDIST0
- 
-    IN DIST5  ; take in distance from 5th
-	OUT SSEG2  ; 
-    STORE TEMPDIST5
-    
-    
+
     CALL Wait1
-    
-;     
-;     
+
+	IN DIST0  ; take in distance from 0th
+	OUT SSEG1  ;
+    STORE TEMPDIST0
+
+    IN DIST5  ; take in distance from 5th
+	OUT SSEG2  ;
+    STORE TEMPDIST5
+
+
+    CALL Wait1
+
+;
+;
     ; SIGNATURE
     LOADI 0
     STORE RESULT
-  ;-----------------------------------  
+  ;-----------------------------------
     LOAD TEMPDIST0
     DivLoop:
        SUB DIVBY
        STORE TEMPDIST0
-       
+
        JNEG StoreSig
-       
-       
+
+
        LOAD RESULT
        ADDI 1
        STORE RESULT
-       
+
        LOAD TEMPDIST0
        JUMP DivLoop
 
@@ -90,13 +51,13 @@ Localization:
     DivLoop1:
        SUB DIVBY
        STORE TEMPDIST5
-       
+
        JNEG StoreSig1
 
        LOAD RESULT
        ADDI 1
        STORE RESULT
-       
+
        LOAD TEMPDIST5
        JUMP DivLoop1
 
@@ -104,66 +65,66 @@ Localization:
         LOAD RESULT
         STORE N1
         ;----------------
-        
+
     LOAD N3
     OUT SSEG1
     LOAD N1
     OUT SSEG2
-    
-    
-    CALL Wait1
-    
-    CALL Wait1
-    
- 
 
-;------------------ ROTATE ---------------------------------------- 
+
+    CALL Wait1
+
+    CALL Wait1
+
+
+
+;------------------ ROTATE ----------------------------------------
    LOADI 0
-    OUT RESETPOS   
+    OUT RESETPOS
     Rotate:
-		LOAD  FSlow 
-		OUT   RVELCMD 
-		LOAD  RSlow 
+		LOAD  FSpeed
+		OUT   RVELCMD
+		LOAD  RSpeed
 		OUT   LVELCMD
 		IN THETA
 		SUB  DegCust
 		JNEG Rotate
 
-		
-	LOAD  0 
-	OUT   RVELCMD 
-	LOAD  0 
+
+	LOAD  0
+	OUT   RVELCMD
+	LOAD  0
 	OUT   LVELCMD
 
 ;----GET SECOND PAIR OF VALS--------------------------------------------
 
    CALL Wait1
-  
+
  	IN DIST0  ; take in distance from 0th
-	OUT SSEG1  ; 
+	OUT SSEG1  ;
     STORE TEMPDIST0
- 
+
     IN DIST5  ; take in distance from 5th
-	OUT SSEG2  ; 
+	OUT SSEG2  ;
     STORE TEMPDIST5
 
     CALL Wait1
-    
+
     LOADI 0
     STORE RESULT
-  ;-----------------------------------  
+  ;-----------------------------------
     LOAD TEMPDIST0
     DivLoop2:
        SUB DIVBY
        STORE TEMPDIST0
-       
+
        JNEG StoreSig2
-       
-       
+
+
        LOAD RESULT
        ADDI 1
        STORE RESULT
-       
+
        LOAD TEMPDIST0
        JUMP DivLoop2
 
@@ -177,13 +138,13 @@ Localization:
     DivLoop3:
        SUB DIVBY
        STORE TEMPDIST5
-       
+
        JNEG StoreSig3
 
        LOAD RESULT
        ADDI 1
        STORE RESULT
-       
+
        LOAD TEMPDIST5
        JUMP DivLoop3
 
@@ -191,18 +152,18 @@ Localization:
         LOAD RESULT
         STORE N4
         ;----------------
-   
+
     LOAD N2
     OUT SSEG1
     LOAD N4
     OUT SSEG2
 
     CALL Wait1
-    
+
     CALL Wait1
-   
-    
-    
+
+
+
     LOADI 0
     OUT SSEG1
     LOADI 0
@@ -211,28 +172,28 @@ Localization:
     CALL Wait1
     CALL Wait1
 
-    
-    
+
+
 LOAD N1
 SHIFT 4
 OR N2
 SHIFT 4
-OR N3 
+OR N3
 SHIFT 4
 OR N4
 
 
-STORE N1234  
-    
+STORE N1234
+
 ;     LOAD N1234
 ;     OUT SSEG1
-;     
-    
-    
-    
-    
-    
-    
+;
+
+
+
+
+
+
 ;---------------------------------------------------------------------------------
 ;
 ; MAKE THE ALIASES FOR THE VALUES
@@ -278,7 +239,7 @@ STORE Q3
 
 LOAD N1
 STORE Q4
-; 
+;
 
 ; ; STORE THESE INDIVIDUAL INTO WORDS, THIS WAY THEY CAN BE XOR WITH OUR SIGNATURES (ESSENTIALLY, COMPARED)
 
@@ -287,54 +248,54 @@ LOAD M1
 SHIFT 4
 OR M2
 SHIFT 4
-OR M3 
+OR M3
 SHIFT 4
 OR M4
 
-STORE M1234  
-; 
+STORE M1234
+;
 ; ; STORE P1, P2, P3, P4 INTO A WORD
 LOAD P1
 SHIFT 4
 OR P2
 SHIFT 4
-OR P3 
+OR P3
 SHIFT 4
 OR P4
 
-STORE P1234  
-; 
+STORE P1234
+;
 ; STORE Q1, Q2, Q3, Q4
 LOAD Q1
 SHIFT 4
 OR Q2
 SHIFT 4
-OR Q3 
+OR Q3
 SHIFT 4
 OR Q4
 
-STORE Q1234  
+STORE Q1234
 
 
 
 
 
-; 
+;
 ; LOAD M1234
 ; OUT SSEG2
-; 
+;
 ; CALL Wait1
 ; CALL Wait1
 ; CALL Wait1
-; 
+;
 ; LOAD P1234
 ; OUT SSEG1
-; 
+;
 ; LOAD Q1234
 ; OUT SSEG2
-; 
-; 
-; 
+;
+;
+;
 ; CALL Wait1
 ; CALL Wait1
 ; CALL Wait1
@@ -343,36 +304,36 @@ STORE Q1234
 ; CALL Wait1
 
 
-; 
+;
  ;;-------------------------------
 
-; ; 
+; ;
 ; ; ; NOW COMPARE TO THE SIGNATURES WE HAVE, USING XOR
-; ; 
+; ;
 ;----compare to 1,1-------------------------
 CompareTo11:
     LOAD N1234
 	STORE TEMPSIG
 	XOR SIG11
 	JZERO FoundSig11
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG11
 	JZERO FoundSig11
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG11
 	JZERO FoundSig11
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG11
 	JZERO FoundSig11
-	
+
     JUMP CompareTo12
-    
+
     FoundSig11:
    	 	LOADI 1
     	STORE X0
@@ -383,29 +344,29 @@ CompareTo11:
 		CALL Wait1
 ;------------------------------------------
 ;----compare to 1,2-------------------------
-CompareTo12: 
+CompareTo12:
 	LOAD N1234
 	STORE TEMPSIG
 	XOR SIG12
 	JZERO FoundSig12
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG12
 	JZERO FoundSig12
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG12
 	JZERO FoundSig12
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG12
 	JZERO FoundSig12
-	
+
 	JUMP CompareTo13
-	
+
 	 FoundSig12:
    	 	LOADI 1
     	STORE X0
@@ -421,24 +382,24 @@ CompareTo12:
 	STORE TEMPSIG
 	XOR SIG13
 	JZERO FoundSig13
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG13
 	JZERO FoundSig13
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG13
 	JZERO FoundSig13
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG13
 	JZERO FoundSig13
-	
+
 	JUMP CompareTo14
-	
+
 	 FoundSig13:
    	 	LOADI 1
     	STORE X0
@@ -454,24 +415,24 @@ CompareTo14:
 	STORE TEMPSIG
 	XOR SIG14
 	JZERO FoundSig14
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG14
 	JZERO FoundSig14
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG14
 	JZERO FoundSig14
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG14
 	JZERO FoundSig14
-	
+
 	JUMP CompareTo21
-	
+
 	 FoundSig14:
    	 	LOADI 1
     	STORE X0
@@ -487,24 +448,24 @@ CompareTo21:
 	STORE TEMPSIG
 	XOR SIG21
 	JZERO FoundSig21
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG21
 	JZERO FoundSig21
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG21
 	JZERO FoundSig21
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG21
 	JZERO FoundSig21
-	
+
 	JUMP CompareTo22
-	
+
 	 FoundSig21:
    	 	LOADI 2
     	STORE X0
@@ -521,26 +482,26 @@ CompareTo22:
 	STORE TEMPSIG
 	XOR SIG22
 	JZERO FoundSig22
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG22
 	JZERO FoundSig22
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG22
 	JZERO FoundSig22
-	
-	
-	
+
+
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG22
 	JZERO FoundSig22
-	
+
 	JUMP CompareTo23
-	
+
 	 FoundSig22:
    	 	LOADI 2
     	STORE X0
@@ -556,12 +517,12 @@ CompareTo22:
 	STORE TEMPSIG
 	XOR SIG23
 	JZERO FoundSig23
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG23
 	JZERO FoundSig23
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG23
@@ -571,9 +532,9 @@ CompareTo22:
 	STORE TEMPSIG
 	XOR SIG23
 	JZERO FoundSig23
-	
+
 	JUMP CompareTo24
-	
+
 	 FoundSig23:
    	 	LOADI 2
     	STORE X0
@@ -589,22 +550,22 @@ CompareTo24:
 	STORE TEMPSIG
 	XOR SIG24
 	JZERO FoundSig24
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG24
 	JZERO FoundSig24
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG24
 	JZERO FoundSig24
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG24
 	JZERO FoundSig24
-	
+
 	JUMP CompareTo31
 	FoundSig24:
    	 	LOADI 2
@@ -621,22 +582,22 @@ CompareTo31:
 	STORE TEMPSIG
 	XOR SIG31
 	JZERO FoundSig31
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG31
 	JZERO FoundSig31
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG31
 	JZERO FoundSig31
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG31
 	JZERO FoundSig31
-	
+
 	JUMP CompareTo32
 	FoundSig31:
    	 	LOADI 3
@@ -653,22 +614,22 @@ CompareTo32:
 	STORE TEMPSIG
 	XOR SIG32
 	JZERO FoundSig32
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG32
 	JZERO FoundSig32
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG32
 	JZERO FoundSig32
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG32
 	JZERO FoundSig32
-	
+
 	JUMP CompareTo33
 	FoundSig32:
    	 	LOADI 3
@@ -685,22 +646,22 @@ CompareTo33:
 	STORE TEMPSIG
 	XOR SIG33
 	JZERO FoundSig33
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG33
 	JZERO FoundSig33
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG33
 	JZERO FoundSig33
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG33
 	JZERO FoundSig33
-	
+
 	JUMP CompareTo34
 	FoundSig33:
    	 	LOADI 3
@@ -717,22 +678,22 @@ CompareTo34:
 	STORE TEMPSIG
 	XOR SIG34
 	JZERO FoundSig34
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG34
 	JZERO FoundSig34
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG34
 	JZERO FoundSig34
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG34
 	JZERO FoundSig34
-	
+
 	JUMP CompareTo41
 	FoundSig34:
    	 	LOADI 3
@@ -749,22 +710,22 @@ CompareTo41:
 	STORE TEMPSIG
 	XOR SIG41
 	JZERO FoundSig41
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG41
 	JZERO FoundSig41
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG41
 	JZERO FoundSig41
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG41
 	JZERO FoundSig41
-	
+
 	JUMP CompareTo42
 	FoundSig41:
    	 	LOADI 4
@@ -781,22 +742,22 @@ CompareTo42:
 	STORE TEMPSIG
 	XOR SIG42
 	JZERO FoundSig42
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG42
 	JZERO FoundSig42
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG42
 	JZERO FoundSig42
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG42
 	JZERO FoundSig42
-	
+
 	JUMP CompareTo43
 	FoundSig42:
    	 	LOADI 4
@@ -813,22 +774,22 @@ CompareTo43:
 	STORE TEMPSIG
 	XOR SIG43
 	JZERO FoundSig43
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG43
 	JZERO FoundSig43
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG43
 	JZERO FoundSig43
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG43
 	JZERO FoundSig43
-	
+
 	JUMP CompareTo44
 	FoundSig43:
    	 	LOADI 4
@@ -845,22 +806,22 @@ CompareTo44:
 	STORE TEMPSIG
 	XOR SIG44
 	JZERO FoundSig44
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG44
 	JZERO FoundSig44
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG44
 	JZERO FoundSig44
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG44
 	JZERO FoundSig44
-	
+
 	JUMP CompareTo53
 	FoundSig44:
    	 	LOADI 4
@@ -877,22 +838,22 @@ CompareTo53:
 	STORE TEMPSIG
 	XOR SIG53
 	JZERO FoundSig53
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG53
 	JZERO FoundSig53
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG53
 	JZERO FoundSig53
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG53
 	JZERO FoundSig53
-	
+
 	JUMP CompareTo54
 	FoundSig53:
    	 	LOADI 5
@@ -909,22 +870,22 @@ CompareTo54:
 	STORE TEMPSIG
 	XOR SIG54
 	JZERO FoundSig54
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG54
 	JZERO FoundSig54
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG54
 	JZERO FoundSig54
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG54
 	JZERO FoundSig54
-	
+
 	JUMP CompareTo64
 	FoundSig54:
    	 	LOADI 5
@@ -941,22 +902,22 @@ CompareTo64:
 	STORE TEMPSIG
 	XOR SIG64
 	JZERO FoundSig64
-	
+
 	LOAD M1234
 	STORE TEMPSIG
 	XOR SIG64
 	JZERO FoundSig64
-	
+
 	LOAD P1234
 	STORE TEMPSIG
 	XOR SIG64
 	JZERO FoundSig64
-	
+
 	LOAD Q1234
 	STORE TEMPSIG
 	XOR SIG64
 	JZERO FoundSig64
-	
+
 	JUMP OutofCheck
 	FoundSig64:
    	 	LOADI 6
@@ -969,43 +930,43 @@ CompareTo64:
 ;------------------------------------------
 
 OutofCheck:
-	
+
  		CALL Wait1
 		CALL Wait1
 
 
 
- 	
+
 
 
 
 RETURN
-    
-    
-    
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1017,9 +978,9 @@ RETURN
 
 
 ;-----------------------------------------------------------
-	
-	
-	;declare signatures for all locations in HEX, these can be accessed later for comparison to the input 
+
+
+	;declare signatures for all locations in HEX, these can be accessed later for comparison to the input
 	DERP:    DW 0
 	DIVBY:    DW 552
 	 ;this is the value we're "dividing" by. 610mm
@@ -1034,38 +995,38 @@ RETURN
 	N2:       DW 0
 	N3:       DW 0
 	N4:       DW 0
-	
-	N1234:    DW &H0000 
-	
+
+	N1234:    DW &H0000
+
 ;word rotate 90 to the right
 	M1:       DW 0
 	M2:       DW 0
 	M3:       DW 0
 	M4:       DW 0
-	
-	M1234:    DW &H0000 
-	
-	
+
+	M1234:    DW &H0000
+
+
 ;word rotate  180 to the right
 	P1:       DW 0
 	P2:       DW 0
 	P3:       DW 0
 	P4:       DW 0
-	
-	P1234:    DW &H0000 
-	
+
+	P1234:    DW &H0000
+
 ;word rotate another 270 to the right
 	Q1:       DW 0
 	Q2:       DW 0
 	Q3:       DW 0
 	Q4:       DW 0
-	
-	Q1234:    DW &H0000 
 
-	
-    
-	
-	
+	Q1234:    DW &H0000
+
+
+
+
+
     SIG11:    DW &H3300
     SIG12:    DW &H2310
     SIG13:    DW &H1420
@@ -1085,5 +1046,3 @@ RETURN
     SIG53:    DW &H1004
     SIG54:    DW &H0114
     SIG64:    DW &H0005
-    
-	;--------------------------------------------------------------------------   
