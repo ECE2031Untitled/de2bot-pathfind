@@ -30,7 +30,7 @@ Main:
     ;; Align the robot and halt
     LOADI   270
     CALL    AlignRobot
-    LOAD    AlignRobot2MinDist1
+    LOAD    AlignRobot2MinTheta1
     CALL    RotateTo
 
     ;CALL    FillSonarArray
