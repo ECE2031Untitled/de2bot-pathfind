@@ -508,843 +508,633 @@ STORE N1234
 
 ;-----------------------------------------------------
     FoundSig11W:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig11 	
     
      FoundSig11S:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig11   	
         
       FoundSig11E:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig11  	
       
        FoundSig11N:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 1
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig11   	
     	
-	 FoundSig12W:
-   	 	LOADI 1
+       FoundSig11:
+        LOADI 1
     	STORE X0
-    	LOADI 2
+    	LOADI 1
     	STORE Y0
+        JUMP OutofCheck  
+  ;------------------------------------------      
+	 FoundSig12W:
     	LOADI 2
     	STORE Orient
         JUMP OutofCheck    	
     
     FoundSig12S:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 3
     	STORE Orient
         JUMP OutofCheck    	
    
      FoundSig12E:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 0
     	STORE Orient
         JUMP OutofCheck    	
     
      FoundSig12N:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 1
     	STORE Orient
-        JUMP OutofCheck    	
-    
-   
-	 FoundSig13W:
-   	 	LOADI 1
+        JUMP OutofCheck 
+        
+    FoundSig12:   	
+    	LOADI 1
     	STORE X0
-    	LOADI 3
+    	LOADI 2
     	STORE Y0
+        JUMP OutofCheck 
+ ;-------------------------------------------
+	 FoundSig13W:
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig13   	
     	
     FoundSig13S:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig13   	
     
     FoundSig13E:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig13   	
     
     FoundSig13N:
-   	 	LOADI 1
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig13   	
+       
+    FoundSig13:
+        LOADI 1
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-
-	 FoundSig14W:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
+        JUMP OutofCheck  
+ ;-------------------------
+	FoundSig14W:
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig14
     	
     FoundSig14S:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig14
     
     FoundSig14E:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig14
     
     FoundSig14N:
-   	 	LOADI 1
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig14
+       
+     FoundSig14:
+        LOADI 1
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
- 
+        JUMP OutofCheck 	
+ ;-------------------------------
 	 FoundSig21W:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig21  
     
     FoundSig21S:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig21  
     
     FoundSig21E:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig21  
     
     FoundSig21N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig21  
+     
+    FoundSig21:
    	 	LOADI 2
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-
+        JUMP OutofCheck  	
+;-------------------------------
 	 FoundSig22W:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig22   	
     
    	 FoundSig22S:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig22   	
    
    	 FoundSig22E:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig22   	
     
    	 FoundSig22N:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 1
     	STORE Orient
-        JUMP OutofCheck    	
- 
-
-	 FoundSig23W:
+        JUMP FoundSig22   	
+      
+     FoundSig22:
    	 	LOADI 2
     	STORE X0
-    	LOADI 3
+    	LOADI 2
     	STORE Y0
+        JUMP OutofCheck 
+ ;--------------------------------------------
+	 FoundSig23W:
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig23  
     	
      FoundSig23S:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig23  
  
      FoundSig23E:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig23  
     	
      FoundSig23N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig23  
+      
+     FoundSig23:
    	 	LOADI 2
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-
-	FoundSig24W:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
+        JUMP OutofCheck  
+  
+   ;-------------------------------------- 	
+   FoundSig24W:
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig24   	
     
     FoundSig24S:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig24   	
     
     FoundSig24E:
-   	 	LOADI 2
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig24   	
     
     FoundSig24N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig24   	
+        
+    FoundSig24:
    	 	LOADI 2
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-
+        JUMP OutofCheck  	
+;-------------------------------------
 	FoundSig31W:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig31  
     
     FoundSig31S:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig31  
     
     FoundSig31E:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig31  
     
     FoundSig31N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig31  
+        
+     FoundSig31:
    	 	LOADI 3
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
         JUMP OutofCheck    	
+ ;-----------------------------	
     	
 	FoundSig32W:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig32
     
     FoundSig32S:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig32
     
     FoundSig32E:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig32
     
     FoundSig32N:
+    	LOADI 1
+    	STORE Orient
+        JUMP  FoundSig32
+        
+     FoundSig32:
    	 	LOADI 3
     	STORE X0
     	LOADI 2
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
+        JUMP OutofCheck 
+  ;---------------------------------  	
 
 	FoundSig33W:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig33  
     	
     FoundSig33S:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig33  
     	
     FoundSig33E:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig33  
     	
     FoundSig33N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig33  
+        
+    FoundSig33:
    	 	LOADI 3
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
+        JUMP OutofCheck 
+  ;-------------------------------- 	
 
 	FoundSig34W:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig34
     	
     FoundSig34S:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig34
     
     FoundSig34E:
-   	 	LOADI 3
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig34
     	
     FoundSig34N:
+    	LOADI 1
+    	STORE Orient
+        JUMP  FoundSig34
+     
+    FoundSig34:
    	 	LOADI 3
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
+        JUMP OutofCheck    
+ ;----------------------------------   	
 
 	FoundSig41W:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig41
     	
     FoundSig41S:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig41
     
     FoundSig41E:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 1
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig41
     	
     FoundSig41N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig41
+        
+    FoundSig41:
    	 	LOADI 4
     	STORE X0
     	LOADI 1
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
+        JUMP OutofCheck 
+  ;-------------------------------    	
 
 	FoundSig42W:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig42
     	
     FoundSig42S:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig42
     	
     FoundSig42E:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig42
     	
     FoundSig42N:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 2
-    	STORE Y0
     	LOADI 1
     	STORE Orient
-        JUMP OutofCheck    	
-    	
-
-	FoundSig43W:
+        JUMP FoundSig42
+        
+     FoundSig42:
    	 	LOADI 4
     	STORE X0
-    	LOADI 3
+    	LOADI 2
     	STORE Y0
+        JUMP OutofCheck 
+   ;----------------------------    	
+    	
+	FoundSig43W:
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig43   	
     	
     FoundSig43S:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig43   	
     	
     FoundSig43E:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig43   	
     	
     FoundSig43N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig43
+    
+    FoundSig43:
    	 	LOADI 4
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-    	
-
+        JUMP OutofCheck  
+ ;-------------------------------- 	
 	FoundSig44W:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig44  	
     
     FoundSig44S:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig44    	
     	
     FoundSig44E:
-   	 	LOADI 4
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig44   	
     	
     FoundSig44N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig44 
+        
+    FoundSig44:
    	 	LOADI 4
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-    	
-    	
-
+        JUMP OutofCheck 
+ ;-------------------------------  	
 	FoundSig53W:
-   	 	LOADI 5
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig53  
     	
     FoundSig53S:
-   	 	LOADI 5
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig53  
     	
     FoundSig53E:
-   	 	LOADI 5
-    	STORE X0
-    	LOADI 3
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig53  
     
     FoundSig53N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig53  
+        
+     FoundSig53:
    	 	LOADI 5
     	STORE X0
     	LOADI 3
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-
+        JUMP OutofCheck  
+ ;--------------------------------  	
 	FoundSig54W:
-   	 	LOADI 5
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig54  
     	
     FoundSig54S:
-   	 	LOADI 5
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig54  
     	
     FoundSig54E:
-   	 	LOADI 5
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig54  
     	
     FoundSig54N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig54  
+        
+    FoundSig54:
    	 	LOADI 5
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-
+        JUMP OutofCheck 
+ ;----------------------------------- 	
 	FoundSig64W:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig64
     	
     FoundSig64S:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig64
     	
     FoundSig64E:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig64
     	
     FoundSig64N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig64
+        
+     FoundSig64:
    	 	LOADI 6
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
-    	
-    	
-  
+        JUMP OutofCheck   		
+;-----------------------------------------    	
 	FoundSig641W:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0  
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig641  	
     	
-    FoundSig641S:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0  
+    FoundSig641S: 
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig641  	
     	
-    FoundSig641E:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0  
+    FoundSig641E: 
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP  FoundSig641  	
     	
-    FoundSig641N:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0  
+    FoundSig641N: 
     	LOADI 1
     	STORE Orient
-        JUMP OutofCheck    	
-    	
-    	
-	FoundSig642W:
+        JUMP  FoundSig641  	
+        
+    FoundSig641:
    	 	LOADI 6
     	STORE X0
     	LOADI 4
     	STORE Y0
+        JUMP OutofCheck   
+ ;------------------------------
+	FoundSig642W:
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig642    	
     	
     FoundSig642S:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig642    	
     
     FoundSig642E:
-   	 	LOADI 6
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-        JUMP OutofCheck    	
+        JUMP FoundSig642    	
     
     FoundSig642N:
+    	LOADI 1
+    	STORE Orient
+        JUMP FoundSig642    	
+    
+    FoundSig642:
    	 	LOADI 6
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-        JUMP OutofCheck    	
+        JUMP OutofCheck
+   ;--------------------------------
     	
-    	
-	FoundSig141W:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0	
+	FoundSig141W:	
     	LOADI 2
     	STORE Orient
-        JUMP OutofCheck    	
+    	JUMP FoundSig141
     	
     FoundSig141S:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0	
     	LOADI 3
     	STORE Orient
-        JUMP OutofCheck    	
-    FoundSig141E:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0	
+    	JUMP FoundSig141
+    FoundSig141E:	
     	LOADI 0
     	STORE Orient
-    	JUMP OutofCheck
+    	JUMP FoundSig141
     	
-    FoundSig141N:
+    FoundSig141N:	
+    	LOADI 1
+    	STORE Orient
+    	JUMP FoundSig141
+    	
+    FoundSig141:
    	 	LOADI 1
     	STORE X0
     	LOADI 4
-    	STORE Y0	
-    	LOADI 1
-    	STORE Orient
-    	JUMP OutofCheck
-    	
-    
+    	STORE Y0
+        JUMP OutofCheck  
+ ;------------------------------------  
  
 	FoundSig142W:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 2
     	STORE Orient
-    	JUMP OutofCheck		
+    	JUMP  FoundSig142	
     	
     FoundSig142S:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 3
     	STORE Orient
-    	JUMP OutofCheck	
+    	JUMP  FoundSig142	
     	
     FoundSig142E:
-   	 	LOADI 1
-    	STORE X0
-    	LOADI 4
-    	STORE Y0
     	LOADI 0
     	STORE Orient
-    	JUMP OutofCheck
+    	JUMP  FoundSig142	
     	
     FoundSig142N:
+    	LOADI 1
+    	STORE Orient
+    	JUMP  FoundSig142	
+    	
+    FoundSig142:
    	 	LOADI 1
     	STORE X0
     	LOADI 4
     	STORE Y0
-    	LOADI 1
-    	STORE Orient
-    	JUMP OutofCheck		
+    	JUMP OutofCheck	
     	
    
 ;------------------------------------------
@@ -1355,41 +1145,20 @@ OutofCheck:
 		OUT SSEG1
 		LOAD Y0
 		OUT SSEG2
-		 ; displays the coordinates, waits 3 seconds....
 		
 		CALL Wait1
-		CALL Wait1
-		CALL Wait1
+        CALL Wait1
 		
-		; ..... then displays the orientation
 		LOADI 0
-		OUT SSEG2
-		LOAD Orient
 		OUT SSEG1
+		LOAD Orient
+		OUT SSEG2
+		
+		CALL Wait1
 
 
 
 RETURN
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
