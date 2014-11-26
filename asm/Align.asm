@@ -16,6 +16,9 @@ AlignRobot:
 
     ;; Enable sonars 0 and 5, disable all others
     LOAD    AlignRobot2SonarMask
+    ;; Output a few times to make sure the sonars definately do turn on
+    OUT     SONAREN
+    OUT     SONAREN
     OUT     SONAREN
 
     ;; Initialize min distance to be the maximum possible value
@@ -42,15 +45,6 @@ AlignRobot2Loop:
     OUT     TIMER
 AlignRobotDontAppendDot:
 
-    IN      THETA
-    ;; If we've rotated 90 degrees, goto AlignRobot2Done
-    SUB     Degrees
-    JZERO   AlignRobot2Done
-    JPOS    AlignRobot2Done
-
-    ;; AlignRobot2MinDist = Min(DIST0, AlignRobot2MinDist)
-    ;; and display on seven segement 2
-
     ;; Save theta, dist0, and dist5
     IN      THETA
     STORE   AlignRobot2TempTheta
@@ -58,6 +52,12 @@ AlignRobotDontAppendDot:
     STORE   AlignRobot2Temp1
     IN      DIST5
     STORE   AlignRobot2Temp2
+
+    ;; If we've rotated the given number of degrees, goto AlignRobot2Done
+    LOAD    AlignRobot2TempTheta
+    SUB     Degrees
+    JZERO   AlignRobot2Done
+    JPOS    AlignRobot2Done
 
     ;; Update min dist 1 if dist0 is a new minimum
     LOAD    AlignRobot2Temp1
@@ -99,7 +99,7 @@ AlignRobot2Done:
 
     RETURN
 
-AlignRobot2SonarMask: ;; Sonars 0 and 5
+AlignRobot2SonarMask: ;; Sonars 0, 5
     DW      &B0000000000100001
 MaxValue:
     DW &H07FF
@@ -121,4 +121,332 @@ AlignRobot2TempTheta:
 AlignRobot2Temp1:
     DW      0
 AlignRobot2Temp2:
+    DW      0
+
+
+;;--- void FillSonarArray() ----------------------------------------------------
+;; Fill a 180 value array with sonar measurements at those angles.
+;;------------------------------------------------------------------------------
+FillSonarArray:
+    ;; Reset theta
+    OUT     RESETPOS
+
+    ;; Enable sonar0
+    LOADI   1
+    OUT     SONAREN
+
+FillSonarArrayLoop:
+    ;; Rotate continuously while in the loop
+    CALL    RotateCW
+
+    ;; temp = theta
+    IN      THETA
+    STORE   FillSonarArrayTemp
+
+    ;; if (temp == 180) goto done
+    ADDI    -180
+    JZERO    FillSonarArrayDone
+
+    ;; Get the address to store at ( &SonarArray[Theta] )
+    LOADI   SonarArray
+    ADD     FillSonarArrayTemp
+    STORE   FillSonarArrayTemp
+
+    ;; Store the distance in the sonar array ( SonarArray[Theta] = Dist0 )
+    IN      DIST0
+    ISTORE  FillSonarArrayTemp
+
+    JUMP FillSonarArrayLoop
+
+FillSonarArrayDone:
+    LOADI   0
+    OUT     SONAREN
+    CALL    StopMotors
+
+    RETURN
+
+FillSonarArrayTemp:
+    DW 0
+
+;;--- void BestSonarArrayAngle() -----------------------------------------------
+;; Find the angle in SonarArray which has the minimum value and which has a
+;; valid angle (not 0x7ff) ninety degrees above it.
+;;------------------------------------------------------------------------------
+BestSonarArrayAngle:
+    ;; int min = 0x7ff
+    LOAD    MaxValue
+    STORE   BestSonarArrayAngleMin
+    ;; in minAngle = 0
+    LOADI   0
+    STORE   BestSonarArrayAngleMinAngle
+    ;; int i = 0
+    LOADI   0
+    STORE   BestSonarArrayAngleI
+    ;; int j = 90
+    LOADI   90
+    STORE   BestSonarArrayAngleJ
+
+BestSonarArrayAngleLoop:
+    CALL    WaitTenth
+
+    ;; while (i != 180)
+    LOAD    BestSonarArrayAngleI
+    ADDI    -180
+    JZERO   BestSonarArrayAngleDone
+
+    ;; Acc = SonarArray[j]
+    LOADI   SonarArray
+    ADD     BestSonarArrayAngleJ
+    STORE   BestSonarArrayAngleTemp
+    ILOAD   BestSonarArrayAngleTemp
+
+    ;; If SonarArray[j] != 0x7ff
+    ; SUB     MaxValue
+    ; JZERO   BestSonarArrayAngleDontCount
+    ;; If SonarArray[j] <= 6 feet
+    SUB     BestSonarArrayAngle6Feet
+    JPOS    BestSonarArrayAngleDontCount
+
+    ;; temp = SonarArray[i]
+    LOADI   SonarArray
+    ADD     BestSonarArrayAngleI
+    STORE   BestSonarArrayAngleTemp
+    ILOAD   BestSonarArrayAngleTemp
+    STORE   BestSonarArrayAngleTemp
+
+    OUT     SSEG1
+
+    ;; If (temp < min)
+    SUB     BestSonarArrayAngleMin
+    JPOS    BestSonarArrayAngleDontCount
+
+    ;; min = temp
+    LOAD    BestSonarArrayAngleTemp
+    STORE   BestSonarArrayAngleMin
+    ;; minAngle = i
+    LOAD    BestSonarArrayAngleI
+    STORE   BestSonarArrayAngleMinAngle
+
+BestSonarArrayAngleDontCount:
+    ;; i++
+    LOAD    BestSonarArrayAngleI
+    ADDI    1
+    STORE   BestSonarArrayAngleI
+
+    ;; j = j++ == 180 ? 0 : j
+    LOAD    BestSonarArrayAngleJ
+    ADDI    1
+    STORE   BestSonarArrayAngleJ
+
+    ADDI    -180
+    JNEG    BestSonarArrayAngleDontResetJ
+
+    LOADI   0
+    STORE   BestSonarArrayAngleJ
+
+BestSonarArrayAngleDontResetJ:
+    JUMP    BestSonarArrayAngleLoop
+
+BestSonarArrayAngleDone:
+    LOAD    BestSonarArrayAngleMin
+    RETURN
+
+
+BestSonarArrayAngleI:
+    DW 0
+BestSonarArrayAngleJ:
+    DW 0
+BestSonarArrayAngleMin:
+    DW 0
+BestSonarArrayAngleMinAngle:
+    DW 0
+BestSonarArrayAngleTemp:
+    DW 0
+BestSonarArrayAngle6Feet:
+    DW 879 ;; Note, decreased to 3 feet
+
+
+;;--- int SonarArray[180] ------------------------------------------------------
+;; A 180 value array of sonar measurements at those angles.
+;;------------------------------------------------------------------------------
+SonarArray:
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
+    DW      0
     DW      0

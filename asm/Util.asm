@@ -62,32 +62,14 @@ StopMotors:
 ;;------------------------------------------------------------------------------
 RotateTo:
     STORE   RotateToTemp
-    IN      THETA
-    SUB     RotateToTemp
-
-    JZERO   RotateToDone
-    JPOS    RotateToCCW
-    JNEG    RotateToCW
-
-RotateToCW:
+RotateToLoop:
     CALL    RotateCW
-
     IN      THETA
     SUB     RotateToTemp
-    JNEG    RotateToCW
-    JUMP    RotateToDone
-
-RotateToCCW:
-    CALL    RotateCCW
-
-    IN      THETA
-    SUB     RotateToTemp
-    JPOS    RotateToCCW
-;;  JUMP    RotateToDone
-
+    JZERO   RotateToDone
+    JUMP    RotateToLoop
 RotateToDone:
-    CALL    StopMotors
-    RETURN
+    JUMP    StopMotors ;; Tail-call
 
 RotateToTemp:
     DW 0

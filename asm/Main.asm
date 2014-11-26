@@ -33,6 +33,10 @@ Main:
     LOAD    AlignRobot2MinDist1
     CALL    RotateTo
 
+    ;CALL    FillSonarArray
+    ;CALL    BestSonarArrayAngle
+    ;CALL    RotateTo
+
     CALL Localization
     LOAD X0
     STORE LCDWriteCoordinateArgX
