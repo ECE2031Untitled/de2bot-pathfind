@@ -993,7 +993,7 @@ OutofCheck:
 
     ;; Reset the timer and start the beeping
     OUT     TIMER
-    LOADI   1
+    LOADI   4
     OUT     BEEP
 
 LocalizationBeepWait:
