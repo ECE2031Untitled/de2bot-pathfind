@@ -584,8 +584,6 @@ POINT33:        ; POINT THREE IS X2
 ; X, Y - Coordinates
 ; D - Direction (0, 1, 2, 3)
 ;; Starting position
-X0:     DW      &H0001  ; addr H010, VALUE 0
-Y0:     DW      &H0001
 D0:     DW      &H0000
 R0:     DW      &H0001
 
@@ -630,8 +628,7 @@ TEMPY:  DW      &H0000
 
 ;; Outputs - Difference in x and y and whether to go X first then Y (DIR = 0),
 ;;           or Y first then X (DIR = 1).
-STEPX:  DW      &H0000
-STEPY:  DW      &H0000
+;; StepX and StepY are the inputs to Nav, and are declared there
 DIR:    DW      &H0000
 
 ;****** the six distances between the possible pairs of points ***

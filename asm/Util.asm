@@ -1,6 +1,16 @@
 #ifndef UTIL_ASM
 #define UTIL_ASM
 
+;;=== Global Variables =========================================================
+;;==============================================================================
+X0: DW 0
+Y0: DW 0
+
+;;--- int Orient ---------------------------------------------------------------
+;; Current direction. One of (0,1,2,3).
+;;------------------------------------------------------------------------------
+Orient: DW 0
+
 ;;=== Program Startup/Shutdown =================================================
 ;;==============================================================================
 
@@ -62,32 +72,14 @@ StopMotors:
 ;;------------------------------------------------------------------------------
 RotateTo:
     STORE   RotateToTemp
-    IN      THETA
-    SUB     RotateToTemp
-
-    JZERO   RotateToDone
-    JPOS    RotateToCCW
-    JNEG    RotateToCW
-
-RotateToCW:
+RotateToLoop:
     CALL    RotateCW
-
     IN      THETA
     SUB     RotateToTemp
-    JNEG    RotateToCW
-    JUMP    RotateToDone
-
-RotateToCCW:
-    CALL    RotateCCW
-
-    IN      THETA
-    SUB     RotateToTemp
-    JPOS    RotateToCCW
-;;  JUMP    RotateToDone
-
+    JZERO   RotateToDone
+    JUMP    RotateToLoop
 RotateToDone:
-    CALL    StopMotors
-    RETURN
+    JUMP    StopMotors ;; Tail-call
 
 RotateToTemp:
     DW 0
@@ -163,6 +155,13 @@ MinReturn1:
     RETURN
 MinReturn2:
     LOAD    MinArg2
+    RETURN
+
+;;--- int Abs(int x) -----------------------------------------------------------
+;; Return the absolute value of x.
+;;------------------------------------------------------------------------------
+Abs:
+    JNEG    Negate
     RETURN
 
 #endif /* UTIL_ASM */
