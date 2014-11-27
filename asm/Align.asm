@@ -14,7 +14,7 @@ AlignRobot:
     ;; Reset theta, x, y to 0
     OUT     RESETPOS
 
-    ;; Enable sonars 0 and 5, disable all others
+    ;; Enable sonars 0, 2, 3, and 5, disable all others
     LOAD    AlignRobot2SonarMask
     ;; Output a few times to make sure the sonars definately do turn on
     OUT     SONAREN
@@ -52,12 +52,24 @@ AlignRobotDontAppendDot:
     STORE   AlignRobot2Temp1
     IN      DIST5
     STORE   AlignRobot2Temp2
+    IN      DIST2
+    STORE   AlignRobot2Sensor2
+    IN      DIST3
+    STORE   AlignRobot2Sensor3
 
     ;; If we've rotated the given number of degrees, goto AlignRobot2Done
     LOAD    AlignRobot2TempTheta
     SUB     Degrees
     JZERO   AlignRobot2Done
     JPOS    AlignRobot2Done
+
+    ;; If the front sensors are not within 'FrontSensorRange' of one another,
+    ;; do not count as a new minimum
+    LOAD    AlignRobot2Sensor2
+    SUB     AlignRobot2Sensor3
+    CALL    Abs
+    SUB     FrontSensorRange
+    JPOS    AlignRobot2NotMin2
 
     ;; Update min dist 1 if dist0 is a new minimum
     LOAD    AlignRobot2Temp1
@@ -99,8 +111,8 @@ AlignRobot2Done:
 
     RETURN
 
-AlignRobot2SonarMask: ;; Sonars 0, 5
-    DW      &B0000000000100001
+AlignRobot2SonarMask: ;; Sonars 0, 2, 3, 5
+    DW      &B0000000000101101
 MaxValue:
     DW &H07FF
 Degrees:
@@ -122,6 +134,13 @@ AlignRobot2Temp1:
     DW      0
 AlignRobot2Temp2:
     DW      0
+
+FrontSensorRange:
+    DW      250
+AlignRobot2Sensor2:
+    DW 0
+AlignRobot2Sensor3:
+    DW 0
 
 
 ;;--- void FillSonarArray() ----------------------------------------------------
