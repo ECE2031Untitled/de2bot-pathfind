@@ -187,8 +187,6 @@ BestSonarArrayAngle:
     STORE   BestSonarArrayAngleJ
 
 BestSonarArrayAngleLoop:
-    CALL    WaitTenth
-
     ;; while (i != 180)
     LOAD    BestSonarArrayAngleI
     ADDI    -180
@@ -213,8 +211,6 @@ BestSonarArrayAngleLoop:
     STORE   BestSonarArrayAngleTemp
     ILOAD   BestSonarArrayAngleTemp
     STORE   BestSonarArrayAngleTemp
-
-    OUT     SSEG1
 
     ;; If (temp < min)
     SUB     BestSonarArrayAngleMin
@@ -248,7 +244,7 @@ BestSonarArrayAngleDontResetJ:
     JUMP    BestSonarArrayAngleLoop
 
 BestSonarArrayAngleDone:
-    LOAD    BestSonarArrayAngleMin
+    LOAD    BestSonarArrayAngleMinAngle
     RETURN
 
 
@@ -263,7 +259,7 @@ BestSonarArrayAngleMinAngle:
 BestSonarArrayAngleTemp:
     DW 0
 BestSonarArrayAngle6Feet:
-    DW 879 ;; Note, decreased to 3 feet
+    DW 1758
 
 
 ;;--- int SonarArray[180] ------------------------------------------------------
