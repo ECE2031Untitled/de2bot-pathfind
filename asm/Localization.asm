@@ -985,54 +985,33 @@ CompareTo141:
 ;------------------------------------------
 
 OutofCheck:
+    ;; Output 0X0Y to the SSEG
+    LOAD    X0
+    SHIFT   8
+    OR      Y0
+    OUT     SSEG1
 
-		LOAD X0
-		OUT SSEG1
-		LOAD Y0
-		OUT SSEG2
+    ;; Reset the timer and start the beeping
+    OUT     TIMER
+    LOADI   1
+    OUT     BEEP
 
+LocalizationBeepWait:
+    IN      TIMER
+    ADDI    -10
+    JNEG    LocalizationBeepWait
 
-		CALL Wait1
-		CALL Wait1
-		CALL Wait1
+    ;; Turn off the beeping after one second
+    LOADI   0
+    OUT     BEEP
 
+LocalizationWait:
+    IN      TIMER
+    ADDI    -30
+    JNEG    LocalizationWait
 
-
-
-RETURN
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ;; Finally done
+    RETURN
 
 
 
