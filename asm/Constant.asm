@@ -27,4 +27,13 @@ RMid:     DW -350
 FFast:    DW 500       ; 500 is almost max speed (511 is max)
 RFast:    DW -500
 
+Mask0:    DW &B00000001
+Mask1:    DW &B00000010
+Mask2:    DW &B00000100
+Mask3:    DW &B00001000
+Mask4:    DW &B00010000
+Mask5:    DW &B00100000
+Mask6:    DW &B01000000
+Mask7:    DW &B10000000
+
 #endif /* CONSTANT_ASM */
